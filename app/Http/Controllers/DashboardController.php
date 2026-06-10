@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
+
 
 class DashboardController extends Controller
 {
@@ -155,6 +157,56 @@ class DashboardController extends Controller
             'currentLeftCC',
             'currentRightCC',
             'fundWallet'
+        ));
+    }
+
+
+    public function buyNow() 
+    {
+       
+        $apiBaseUrl = env('API_BASE_URL', 'http://127.0.0.1:8001/api');
+        
+        try {
+           
+            $response = Http::timeout(10)->get("{$apiBaseUrl}/products");
+            
+            if ($response->successful()) {
+                $apiData = $response->json();
+                
+                
+                $products = collect($apiData['products'] ?? [])->map(function ($item) {
+                    return (object) $item;
+                });
+                
+                $productCategory = collect($apiData['product_category'] ?? [])->map(function ($item) {
+                    return (object) $item;
+                });
+            } else {
+                $products = collect();
+                $productCategory = collect();
+                session()->flash('error', 'Products load nahi ho paye. API Status: ' . $response->status());
+            }
+        } catch (\Exception $e) {
+            $products = collect();
+            $productCategory = collect();
+            session()->flash('error', 'API Connection Error: ' . $e->getMessage());
+        }
+
+       
+        $user = auth()->user();
+        $walletBalance = $user->wallet_balance ?? 0; 
+        $maxProducts = 50; 
+        $totalPurchased = 0; 
+        $remainingProducts = max(0, $maxProducts - $totalPurchased);
+
+    
+        return view('user.buy-now', compact(
+            'products', 
+            'productCategory',
+            'walletBalance',
+            'maxProducts',
+            'totalPurchased',
+            'remainingProducts'
         ));
     }
 }

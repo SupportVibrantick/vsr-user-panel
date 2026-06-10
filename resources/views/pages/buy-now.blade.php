@@ -45,29 +45,35 @@
 
             <!-- Products List -->
             <div class="row">
+                @php
+                    // API ka main domain nikal lein (http://127.0.0.1:8001) taaki images wahan se load hon
+                    $apiDomain = str_replace('/api', '', env('API_BASE_URL', 'http://127.0.0.1:8001'));
+                @endphp
+
                 @forelse($products as $product)
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-3 col-md-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
                             
-                            {{-- PRODUCT IMAGE LOGIC --}}
+                            {{-- PRODUCT IMAGE LOGIC (Updated for Array) --}}
                             @php
                                 $imgPath = '';
-                                if ($product->images) {
-                                    // JSON decode karna kyunki longtext mein array aa sakta hai
-                                    $decoded = json_decode($product->images, true);
-                                    if (is_array($decoded) && isset($decoded[0])) {
-                                        $imgPath = $decoded[0];
-                                    } else {
-                                        $imgPath = $product->images;
+                                if (!empty($product->images)) {
+                                    // API se images direct PHP Array mein aa raha hai
+                                    if (is_array($product->images) && isset($product->images[0])) {
+                                        $imgPath = $product->images[0];
+                                    } elseif (is_string($product->images)) {
+                                        // Fallback agar kabhi string format mein aaye
+                                        $decoded = json_decode($product->images, true);
+                                        $imgPath = (is_array($decoded) && isset($decoded[0])) ? $decoded[0] : $product->images;
                                     }
                                 }
                             @endphp
 
                             <div class="mb-3" style="height: 150px; display: flex; align-items: center; justify-content: center;">
                                 @if($imgPath)
-                                    {{-- Note: Agar image na dikhe to 'storage/' hata kar sirf asset($imgPath) kar dein --}}
-                                    <img src="{{ asset('storage/' . $imgPath) }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 100%; object-fit: contain;">
+                                    {{-- Image API ke domain (8001) se load hogi --}}
+                                    <img src="{{ $apiDomain }}/storage/{{ $imgPath }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 100%; object-fit: contain;">
                                 @else
                                     <i class="las la-box fs-1 text-muted"></i>
                                 @endif

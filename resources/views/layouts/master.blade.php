@@ -52,6 +52,7 @@
 
     <!-- App js -->
     <script src="{{ url ('assets/js/app.js')}}"></script>
+    @stack('scripts')
 </body>
 
 </html>
