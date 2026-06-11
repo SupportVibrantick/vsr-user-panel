@@ -172,28 +172,55 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarWallet">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="#" class="nav-link"><i
+                            <li class="nav-item"><a href="{{ route('user.account.summary') }}" class="nav-link"><i
                                         class="las la-file-invoice-dollar"></i> Account Summary</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-dollar-sign"></i> Direct Income</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
+                            <li class="nav-item">
+    <a href="{{ route('user.direct-income') }}" class="nav-link">
+        <i class="las la-dollar-sign"></i> Direct Income
+    </a>
+</li>
+                            <li class="nav-item"><a href="{{ route('user.matching-income') }}" class="nav-link"><i
                                         class="las la-euro-sign"></i> Matching Income</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-gift"></i> Cash Bonus Request</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-donate"></i> Claim Cash Request</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-history"></i> Cash Bonus History</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-chart-line"></i> Generation Income</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-trophy"></i> Awards and Rewards</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-medal"></i> Downline Rank</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-calendar-week"></i> Weekly Payout</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-plane"></i> Retreat, Asia, International Tours</a></li>
+                          <li class="nav-item">
+    <a href="{{ route('user.cash-bonus-request') }}" class="nav-link">
+        <i class="las la-gift"></i> Cash Bonus Request
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.claim-cash-request') }}" class="nav-link">
+        <i class="las la-donate"></i> Claim Cash Request
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.cash-bonus-history') }}" class="nav-link">
+        <i class="las la-history"></i> Cash Bonus History
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.generation-income') }}" class="nav-link">
+        <i class="las la-chart-line"></i> Generation Income
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.awards-rewards') }}" class="nav-link">
+        <i class="las la-trophy"></i> Awards and Rewards
+    </a>
+</li>
+                          <li class="nav-item">
+    <a href="{{ route('user.downline-rank') }}" class="nav-link">
+        <i class="las la-medal"></i> Downline Rank
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.weekly-payout') }}" class="nav-link">
+        <i class="las la-calendar-week"></i> Weekly Payout
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.retreat-tours') }}" class="nav-link">
+        <i class="las la-plane"></i> Retreat, Asia, International Tours
+    </a>
+</li>
                         </ul>
                     </div>
                 </li>
@@ -206,18 +233,36 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDelivery">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-file-alt"></i> Order History</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-hands-helping"></i> By Hand Delivery List</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-truck"></i> Courier Delivery List</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-gifts"></i> By Hand T.B.D Award/Reward List</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-box-open"></i> By Courier T.B.D Award/Reward List</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-boxes"></i> Other Products</a></li>
+                            <li class="nav-item">
+    <a href="{{ route('user.order-history') }}" class="nav-link">
+        <i class="las la-file-alt"></i> Order History
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.by-hand-delivery') }}" class="nav-link">
+        <i class="las la-hands-helping"></i> By Hand Delivery List
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.courier-delivery') }}" class="nav-link">
+        <i class="las la-truck"></i> Courier Delivery List
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.by-hand-award') }}" class="nav-link">
+        <i class="las la-gifts"></i> By Hand T.B.D Award/Reward List
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.by-courier-award') }}" class="nav-link">
+        <i class="las la-box-open"></i> By Courier T.B.D Award/Reward List
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('user.other-products') }}" class="nav-link">
+        <i class="las la-boxes"></i> Other Products
+    </a>
+</li>
                         </ul>
                     </div>
                 </li>

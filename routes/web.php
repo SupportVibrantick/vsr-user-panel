@@ -12,6 +12,24 @@ use App\Http\Controllers\User\FundRequestController;
 use App\Http\Controllers\User\FundRequestStatusController;
 use App\Http\Controllers\User\FundTransferController;
 use App\Http\Controllers\User\FundHistoryController;
+    use App\Http\Controllers\User\WalletController;
+    use App\Http\Controllers\User\DirectIncomeController;
+    use App\Http\Controllers\User\MatchingIncomeController;
+    use App\Http\Controllers\User\CashBonusRequestController;
+use App\Http\Controllers\User\ClaimCashRequestController;
+use App\Http\Controllers\User\CashBonusHistoryController;
+use App\Http\Controllers\User\GenerationIncomeController;
+use App\Http\Controllers\User\AwardsRewardsController;
+use App\Http\Controllers\User\DownlineRankController;
+use App\Http\Controllers\User\WeeklyPayoutController;
+use App\Http\Controllers\User\RetreatToursController;
+
+use App\Http\Controllers\User\OrderHistoryController;
+use App\Http\Controllers\User\ByHandDeliveryController;
+use App\Http\Controllers\User\CourierDeliveryController;
+use App\Http\Controllers\User\ByHandAwardController;
+use App\Http\Controllers\User\ByCourierAwardController;
+use App\Http\Controllers\User\OtherProductsController;
 
 // 1. Login routes (GET shows form, POST processes login)
 Route::match(['get', 'post'], '/', [LoginController::class, 'handleLogin'])->name('login');
@@ -104,3 +122,77 @@ Route::get('/api/wallet-balance', [FundTransferController::class, 'getWalletBala
 // Fund History
 Route::get('/fund-history', [FundHistoryController::class, 'index'])
     ->name('user.fund-history');
+
+
+
+// Wallet Routes
+Route::get('/wallets', [WalletController::class, 'index'])->name('user.wallets');
+Route::get('/wallet/transactions', [WalletController::class, 'getTransactions'])->name('user.wallet.transactions');
+
+Route::get('/account-summary', [WalletController::class, 'accountSummary'])
+    ->name('user.account.summary');
+Route::get('/account-summary/data', [WalletController::class, 'getAccountSummaryData'])
+    ->name('user.account.summary.data');
+
+
+    // Direct Income Routes
+Route::get('/direct-income', [DirectIncomeController::class, 'index'])
+    ->name('user.direct-income');
+Route::get('/direct-income/data', [DirectIncomeController::class, 'getDirectIncomeData'])
+    ->name('user.direct-income.data');
+
+    Route::get('/matching-income', [MatchingIncomeController::class, 'index'])
+    ->name('user.matching-income');
+Route::get('/matching-income/data', [MatchingIncomeController::class, 'getMatchingIncomeData'])
+    ->name('user.matching-income.data');
+    // Cash Bonus Routes
+Route::get('/cash-bonus-request', [CashBonusRequestController::class, 'index'])->name('user.cash-bonus-request');
+Route::get('/cash-bonus-request/data', [CashBonusRequestController::class, 'getCashBonusData'])->name('user.cash-bonus-request.data');
+
+Route::get('/claim-cash-request', [ClaimCashRequestController::class, 'index'])->name('user.claim-cash-request');
+Route::get('/claim-cash-request/data', [ClaimCashRequestController::class, 'getClaimData'])->name('user.claim-cash-request.data');
+
+Route::get('/cash-bonus-history', [CashBonusHistoryController::class, 'index'])->name('user.cash-bonus-history');
+Route::get('/cash-bonus-history/data', [CashBonusHistoryController::class, 'getHistoryData'])->name('user.cash-bonus-history.data');
+
+Route::get('/generation-income', [GenerationIncomeController::class, 'index'])->name('user.generation-income');
+Route::get('/generation-income/data', [GenerationIncomeController::class, 'getGenerationIncomeData'])->name('user.generation-income.data');
+
+Route::get('/awards-rewards', [AwardsRewardsController::class, 'index'])->name('user.awards-rewards');
+Route::get('/awards-rewards/data', [AwardsRewardsController::class, 'getAwardsData'])->name('user.awards-rewards.data');
+
+// Downline Rank
+Route::get('/downline-rank', [DownlineRankController::class, 'index'])->name('user.downline-rank');
+Route::get('/downline-rank/data', [DownlineRankController::class, 'getDownlineRankData'])->name('user.downline-rank.data');
+
+// Weekly Payout
+Route::get('/weekly-payout', [WeeklyPayoutController::class, 'index'])->name('user.weekly-payout');
+Route::get('/weekly-payout/data', [WeeklyPayoutController::class, 'getPayoutData'])->name('user.weekly-payout.data');
+
+// Retreat Tours
+Route::get('/retreat-tours', [RetreatToursController::class, 'index'])->name('user.retreat-tours');
+Route::get('/retreat-tours/data', [RetreatToursController::class, 'getToursData'])->name('user.retreat-tours.data');
+
+// Order History
+Route::get('/order-history', [OrderHistoryController::class, 'index'])
+    ->name('user.order-history');
+    
+// By Hand Delivery
+Route::get('/by-hand-delivery', [ByHandDeliveryController::class, 'index'])->name('user.by-hand-delivery');
+Route::get('/by-hand-delivery/data', [ByHandDeliveryController::class, 'getDeliveryData'])->name('user.by-hand-delivery.data');
+
+// Courier Delivery
+Route::get('/courier-delivery', [CourierDeliveryController::class, 'index'])->name('user.courier-delivery');
+Route::get('/courier-delivery/data', [CourierDeliveryController::class, 'getCourierData'])->name('user.courier-delivery.data');
+
+// By Hand Award
+Route::get('/by-hand-award', [ByHandAwardController::class, 'index'])->name('user.by-hand-award');
+Route::get('/by-hand-award/data', [ByHandAwardController::class, 'getAwardData'])->name('user.by-hand-award.data');
+
+// By Courier Award
+Route::get('/by-courier-award', [ByCourierAwardController::class, 'index'])->name('user.by-courier-award');
+Route::get('/by-courier-award/data', [ByCourierAwardController::class, 'getCourierAwardData'])->name('user.by-courier-award.data');
+
+// Other Products
+Route::get('/other-products', [OtherProductsController::class, 'index'])->name('user.other-products');
+Route::get('/other-products/data', [OtherProductsController::class, 'getOtherProductsData'])->name('user.other-products.data');
