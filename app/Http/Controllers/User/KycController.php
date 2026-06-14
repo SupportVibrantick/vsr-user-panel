@@ -13,12 +13,10 @@ class KycController extends Controller
 
     public function __construct()
     {
-        $this->apiBaseUrl = env('API_BASE_URL', 'http://127.0.0.1:8001/api');
+        $this->apiBaseUrl = env('API_BASE_URL', 'http://127.0.0.1:8000/api');
     }
 
-    /**
-     * Show KYC form and current KYC status
-     */
+    
     public function index()
     {
         $userId = session('user_id');
@@ -45,9 +43,7 @@ class KycController extends Controller
         return view('pages.user.kyc', compact('kycData'));
     }
 
-    /**
-     * Submit KYC documents via AJAX
-     */
+    
     public function submit(Request $request)
     {
         $userId = session('user_id');
@@ -58,12 +54,9 @@ class KycController extends Controller
 
         try {
             $multipart = [
-                ['name' => 'user_id',              'contents' => (string) $userId],
-                ['name' => 'pan_number',            'contents' => $request->input('pan_number', '')],
-                ['name' => 'aadhaar_number',        'contents' => $request->input('aadhaar_number', '')],
-                ['name' => 'account_holder_name',   'contents' => $request->input('account_holder_name', '')],
-                ['name' => 'account_number',        'contents' => $request->input('account_number', '')],
-                ['name' => 'ifsc_code',             'contents' => $request->input('ifsc_code', '')],
+                ['name' => 'user_id',        'contents' => (string) $userId],
+                ['name' => 'pan_number',     'contents' => strtoupper(trim($request->input('pan_number', '')))],
+                ['name' => 'aadhaar_number', 'contents' => preg_replace('/\s+/', '', $request->input('aadhaar_number', ''))],
             ];
 
             // Attach image files if present
@@ -80,15 +73,18 @@ class KycController extends Controller
                 }
             }
 
+
             $response = Http::timeout(30)
                 ->asMultipart()
                 ->post("{$this->apiBaseUrl}/kyc/submit", $multipart);
 
             if ($response->successful()) {
                 $body = $response->json();
+                // dd($body);
                 return response()->json([
                     'success' => true,
                     'message' => $body['message'] ?? 'KYC submitted successfully.',
+                    'response' => $body,
                 ]);
             }
 

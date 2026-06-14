@@ -31,6 +31,7 @@ use App\Http\Controllers\User\ByHandAwardController;
 use App\Http\Controllers\User\ByCourierAwardController;
 use App\Http\Controllers\User\OtherProductsController;
 use App\Http\Controllers\User\GrievanceController;
+use App\Http\Controllers\User\KycController;
 
 // 1. Login routes (GET shows form, POST processes login)
 Route::match(['get', 'post'], '/', [LoginController::class, 'handleLogin'])->name('login');
@@ -205,3 +206,7 @@ Route::get('/grievance/outbox', [GrievanceController::class, 'outbox'])->name('u
 Route::get('/grievance/outbox/data', [GrievanceController::class, 'getOutboxData'])->name('user.grievance.outbox.data');
 Route::get('/grievance/inbox', [GrievanceController::class, 'inbox'])->name('user.grievance.inbox');
 Route::get('/grievance/inbox/data', [GrievanceController::class, 'getInboxData'])->name('user.grievance.inbox.data');
+
+// KYC
+Route::get('/kyc', [KycController::class, 'index'])->name('user.kyc');
+Route::post('/kyc/submit', [KycController::class, 'submit'])->name('user.kyc.submit');

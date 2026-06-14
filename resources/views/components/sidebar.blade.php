@@ -293,8 +293,11 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarKyc">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="#" class="nav-link"><i
-                                        class="las la-user-check"></i> KYC</a></li>
+                            <li class="nav-item">
+                                <a href="{{ route('user.kyc') }}" class="nav-link">
+                                    <i class="las la-user-check"></i> KYC
+                                </a>
+                            </li>
                             <li class="nav-item"><a href="#" class="nav-link"><i
                                         class="las la-file-contract"></i> Admin Documents And Direct Seller
                                     Agreement</a></li>
