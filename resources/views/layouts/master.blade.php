@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <title>@yield('title','VSR | User Panel')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
    
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ url ('assets/images/favicon.ico')}}">
@@ -21,6 +22,7 @@
     <link href="{{ url ('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ url ('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+    @stack('styles')
 
 </head>
 
@@ -34,6 +36,7 @@
 
     </div>
  <!-- JAVASCRIPT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ url ('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ url ('assets/libs/simplebar/simplebar.min.js')}}"></script>
     <script src="{{ url ('assets/libs/node-waves/waves.min.js')}}"></script>
