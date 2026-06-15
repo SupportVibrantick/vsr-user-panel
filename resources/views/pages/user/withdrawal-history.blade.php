@@ -19,7 +19,7 @@
 
             <!-- Filters -->
             <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body">
+                <div class="card-body p-0">
                     {{-- <form method="GET" action="{{ route('user.fund-history') }}">
                         <div class="row g-3 align-items-end">
                             <div class="col-md-3">
@@ -52,7 +52,7 @@
 
             <!-- Fund History Table -->
             <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover align-middle mb-0" id="fundHistoryTable">
                             <thead class="table-dark">

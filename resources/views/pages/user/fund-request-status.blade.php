@@ -53,7 +53,7 @@
 
             <!-- Fund Request Table -->
             <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="table-responsive">
                         {{-- @dump($fundRequests) --}}
                         <table class="table table-bordered table-striped table-hover align-middle mb-0" id="fundRequestTable">
