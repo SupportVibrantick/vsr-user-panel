@@ -71,7 +71,7 @@ class GrievanceController extends Controller
                 );
             }
 
-            $response = $httpRequest->post("{$this->apiBaseUrl}/grievances", $payload);
+            $response = $httpRequest->post("{$this->apiBaseUrl}/raise-ticket", $payload);
 
             if ($response->successful()) {
                 return response()->json([
@@ -106,9 +106,9 @@ class GrievanceController extends Controller
         }
 
         try {
-            $response = Http::timeout(10)->get("{$this->apiBaseUrl}/grievances", [
+            $response = Http::timeout(10)->get("{$this->apiBaseUrl}/outbox", [
                 'user_id' => $userId,
-                'status'  => $request->status ?? '',
+                // 'status'  => $request->status ?? '',
             ]);
 
             return $response->successful()

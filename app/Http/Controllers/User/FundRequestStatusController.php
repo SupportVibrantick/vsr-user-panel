@@ -30,6 +30,7 @@ class FundRequestStatusController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
+                // dd($data);
                 $fundRequests = collect($data['data'] ?? [])->map(fn($item) => (object) $item);
                 
                 return view('pages.user.fund-request-status', compact('fundRequests'));

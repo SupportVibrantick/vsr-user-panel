@@ -53,8 +53,9 @@
 
             <!-- Fund Request Table -->
             <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="table-responsive">
+                        {{-- @dump($fundRequests) --}}
                         <table class="table table-bordered table-striped table-hover align-middle mb-0" id="fundRequestTable">
                             <thead class="table-dark">
                                 <tr>
@@ -73,8 +74,8 @@
                                 <tr>
                                     <td class="text-center fw-bold">{{ $loop->iteration }}</td>
                                     <td>
-                                        <strong>{{ $request->bankDetail->bank_name ?? 'N/A' }}</strong><br>
-                                        <small class="text-muted">{{ $request->bankDetail->mode_name ?? '' }}</small>
+                                        <strong>{{ $request->bank_detail['bank_name'] ?? 'N/A' }}</strong><br>
+                                        <small class="text-muted">{{ $request->bank_detail['mode_name'] ?? '' }}</small>
                                     </td>
                                     <td><span class="badge bg-primary fs-6">₹{{ number_format($request->amount, 2) }}</span></td>
                                     <td>{{ $request->mode_of_payment ?? 'N/A' }}</td>
