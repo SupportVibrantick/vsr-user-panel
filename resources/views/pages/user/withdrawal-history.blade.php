@@ -78,13 +78,13 @@
                                     <td>{{ date('d-m-Y', strtotime($fund->created_at)) ?? '-' }}</td>
                                 </tr>
                                 @empty
-                                <tr>
+                                {{-- <tr>
                                     <td colspan="7" class="text-center py-5">
                                         <i class="las la-history fs-1 text-muted d-block mb-3"></i>
                                         <h5 class="text-muted">No Fund History Found</h5>
                                         <p class="text-muted mb-0">No transactions available for the selected filters.</p>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 @endforelse
                             </tbody>
                             {{-- <tfoot class="table-dark">
@@ -119,6 +119,9 @@ $(document).ready(function() {
         responsive: true,
         pageLength: 10,
         order: [[1, 'desc']]
+        language: {
+            emptyTable: "No Fund History Found"
+        }
     });
 });
 </script>
