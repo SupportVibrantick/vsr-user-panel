@@ -275,7 +275,7 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarWithdrawal">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="#" class="nav-link"><i
+                            <li class="nav-item"><a href="{{ route('withdrawal.history') }}" class="nav-link"><i
                                         class="las la-history"></i> Withdrawal History</a></li>
                             <li class="nav-item"><a href="#" class="nav-link"><i
                                         class="las la-percentage"></i> Annual Commission T.D.S</a></li>

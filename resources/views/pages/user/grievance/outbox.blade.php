@@ -62,7 +62,7 @@
 
             <!-- Table -->
             <div class="card shadow-sm border-0">
-                <div class="card-body p-0">
+                <div class="card-body p-3">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover align-middle mb-0" id="outboxTable">
                             <thead class="table-dark">
@@ -77,7 +77,9 @@
                                     <th>Admin Reply</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                               
+                            </tbody>
                         </table>
                     </div>
                 </div>

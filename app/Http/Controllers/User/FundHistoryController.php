@@ -46,4 +46,29 @@ class FundHistoryController extends Controller
             'totals' => (object)['credit' => 0, 'debit' => 0]
         ]);
     }
+
+    public function withdrawalHistory(Request $request)
+    {
+        $userId = session('user_id');
+        if (!$userId) {
+            return redirect()->route('login')->with('error', 'Please login first.');
+        }
+
+        try {
+            $response = Http::timeout(10)->get("{$this->apiBaseUrl}/withdrawal-history", [
+                'user_id' => $userId, 
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $fundTransfer = collect($data['data'] ?? [])->map(fn($item) => (object) $item);
+                $totals = (object) ($data['totals'] ?? ['credit' => 0, 'debit' => 0]);
+                
+                return view('pages.user.withdrawal-history', compact('fundTransfer', 'totals'));
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to load fund history');
+        }
+
+    }
 }

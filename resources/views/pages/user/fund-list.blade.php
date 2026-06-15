@@ -110,11 +110,11 @@
 
 <script>
 $(document).ready(function() {
-    $('#fundListTable').DataTable({
-        responsive: true,
-        pageLength: 10,
-        order: [[5, 'desc']]
-    });
+    // $('#fundListTable').DataTable({
+    //     responsive: true,
+    //     pageLength: 10,
+    //     order: [[5, 'desc']]
+    // });
 });
 </script>
 @endpush

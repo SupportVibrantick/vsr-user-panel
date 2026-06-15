@@ -210,3 +210,5 @@ Route::get('/grievance/inbox/data', [GrievanceController::class, 'getInboxData']
 // KYC
 Route::get('/kyc', [KycController::class, 'index'])->name('user.kyc');
 Route::post('/kyc/submit', [KycController::class, 'submit'])->name('user.kyc.submit');
+
+Route::get('/withdrawal-history', [FundHistoryController::class, 'withdrawalHistory'])->name('withdrawal.history');
