@@ -123,106 +123,37 @@ document.getElementById('attachmentInput').addEventListener('change', function (
 });
 
 // Form submit
-// document.getElementById('raiseTicketForm').addEventListener('submit', function (e) {
-//     e.preventDefault();
+document.getElementById('raiseTicketForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-//     const submitBtn = document.getElementById('submitBtn');
-//     submitBtn.disabled = true;
-//     submitBtn.innerHTML = '<i class="las la-spinner la-spin me-2"></i>Submitting...';
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="las la-spinner la-spin me-2"></i>Submitting...';
 
-//     const formData = new FormData(this);
+    const formData = new FormData(this);
 
-//     fetch('{{ route("user.grievance.submit") }}', {
-//         method: 'POST',
-//         body: formData,
-//         headers: {
-//             'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-//             'Accept': 'application/json',
-//         }
-//     })
-//     .then(r => r.json())
-//     .then(data => {
-//         if (data.success) {
-//             showToast('Ticket submitted successfully!', 'success');
-//             document.getElementById('raiseTicketForm').reset();
-//         } else {
-//             showToast(data.message || 'Failed to submit ticket.', 'error');
-//         }
-//     })
-//     .catch(() => showToast('An error occurred. Please try again.', 'error'))
-//     .finally(() => {
-//         submitBtn.disabled = false;
-//         submitBtn.innerHTML = '<i class="las la-paper-plane me-2"></i>Submit Ticket';
-//     });
-// });
-
-    $('#attachmentInput').on('change', function () {
-        const file = this.files[0];
-
-        if (file && file.size > 5 * 1024 * 1024) {
-            $('#fileSizeError').removeClass('d-none');
-            this.value = '';
+    fetch('{{ route("user.grievance.submit") }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+            'Accept': 'application/json',
+        }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Ticket submitted successfully!', 'success');
+            document.getElementById('raiseTicketForm').reset();
         } else {
-            $('#fileSizeError').addClass('d-none');
+            showToast(data.message || 'Failed to submit ticket.', 'error');
         }
+    })
+    .catch(() => showToast('An error occurred. Please try again.', 'error'))
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="las la-paper-plane me-2"></i>Submit Ticket';
     });
-
-    $('#raiseTicketForm').on('submit', function (e) {
-        e.preventDefault();
-
-        let submitBtn = $('#submitBtn');
-        submitBtn.prop('disabled', true).html('Submitting...');
-
-        let formData = new FormData();
-
-        formData.append('user_id', '{{ session("user_id") }}');
-        formData.append('subject', $('input[name="subject"]').val());
-        formData.append('category', $('select[name="category"]').val());
-        formData.append('message', $('textarea[name="description"]').val());
-
-        let file = $('#attachmentInput')[0].files[0];
-        if (file) {
-            formData.append('attachment', file);
-        }
-
-        $.ajax({
-            url: 'http://127.0.0.1:8000/api/raise-ticket',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-
-            success: function (response) {
-
-                alert(response.message || 'Ticket raised successfully.');
-
-                $('#raiseTicketForm')[0].reset();
-
-                submitBtn.prop('disabled', false).html(
-                    '<i class="las la-paper-plane me-2"></i>Submit Ticket'
-                );
-            },
-
-            error: function (xhr) {
-
-                submitBtn.prop('disabled', false).html(
-                    '<i class="las la-paper-plane me-2"></i>Submit Ticket'
-                );
-
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    let errorText = '';
-
-                    $.each(errors, function (key, value) {
-                        errorText += value[0] + '\n';
-                    });
-
-                    alert(errorText);
-                } else {
-                    alert('Something went wrong. Please try again.');
-                }
-            }
-        });
-    });
+});
 </script>
 @endpush
