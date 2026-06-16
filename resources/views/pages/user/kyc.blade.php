@@ -485,26 +485,22 @@ $(function () {
     var $form      = $('#kycForm');
     var SUBMIT_URL = $form.data('submit-url') || $form.attr('action');
 
-    // Debug — confirm URL was picked up
     if (!SUBMIT_URL) {
         console.error('KYC: submit URL not found on form');
     }
 
-    /* ── upload area click → file browser ── */
     $(document).on('click', '.upload-placeholder', function () {
         var $card = $(this).closest('.kyc-upload-card');
         if ($card.hasClass('approved')) return;
         $card.find('.kyc-file-input').trigger('click');
     });
 
-    /* ── remove button ── */
     $(document).on('click', '.btn-remove-img', function (e) {
         e.stopPropagation();
         var $card = $(this).closest('.kyc-upload-card');
         resetUploadCard($card, $card.data('field'));
     });
 
-    /* ── file chosen → validate → preview ── */
     $(document).on('change', '.kyc-file-input', function () {
         var file  = this.files[0];
         var $card = $(this).closest('.kyc-upload-card');
@@ -532,7 +528,6 @@ $(function () {
         }
     });
 
-    /* ── image click → modal preview ── */
     $(document).on('click', '.kyc-preview-img', function (e) {
         e.stopPropagation();
         $('#previewModalLabel').text($(this).closest('.kyc-upload-card').data('label'));
@@ -540,7 +535,6 @@ $(function () {
         new bootstrap.Modal(document.getElementById('previewModal')).show();
     });
 
-    /* ── input formatters ── */
     $(document).on('input', '#pan_number', function () {
         this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     });
@@ -550,13 +544,11 @@ $(function () {
         this.value = raw.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
     });
 
-    /* ── AJAX form submit (handled inline above, this is a no-op guard) ── */
     $form.on('submit', function (e) {
         e.preventDefault();
         return false;
     });
 
-    /* ── helpers ── */
 
     function validateFields() {
         var pan     = $('#pan_number').val().trim();
