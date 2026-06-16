@@ -66,7 +66,7 @@ class FundRequestController extends Controller
             return response()->json(['success' => false, 'message' => 'Please login first'], 401);
         }
 
-        try {
+        // try {
             // Prepare data for API
             $data = [
                 'user_id' => $userId,
@@ -90,6 +90,7 @@ class FundRequestController extends Controller
             $response = Http::timeout(30)
                 ->attach('hash_code', $data['hash_code'] ?? null)
                 ->post("{$this->apiBaseUrl}/fund-request/submit", $data);
+                 
 
             if ($response->successful()) {
                 return response()->json([
@@ -103,13 +104,13 @@ class FundRequestController extends Controller
                 'message' => $response->json('message', 'Failed to submit request')
             ], 500);
             
-        } catch (\Exception $e) {
-            Log::error('Fund Request Submit Error: ' . $e->getMessage());
+        // } catch (\Exception $e) {
+        //     Log::error('Fund Request Submit Error: ' . $e->getMessage());
             
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => $e->getMessage()
+        //     ], 500);
+        // }
     }
 }
