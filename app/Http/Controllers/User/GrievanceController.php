@@ -36,12 +36,21 @@ class GrievanceController extends Controller
 
     public function submitTicket(Request $request)
     {
-
         $userId   = session('user_id');
         $userName = session('user_name');
 
+        Log::info('Submit Ticket Started', [
+            'user_id' => $userId,
+            'username' => $userName,
+            'request' => $request->except(['attachment']),
+        ]);
+
         if (!$userId) {
-            return response()->json(['success' => false, 'message' => 'Please login first'], 401);
+            Log::warning('Submit Ticket Failed - User not logged in');
+            return response()->json([
+                'success' => false,
+                'message' => 'Please login first'
+            ], 401);
         }
 
         $request->validate([
@@ -51,20 +60,30 @@ class GrievanceController extends Controller
         ]);
 
         try {
+
             $payload = [
                 'user_id'     => $userId,
                 'username'    => $userName,
                 'subject'     => $request->subject,
                 'category'    => $request->category,
-                'message' => $request->description,
+                'message'     => $request->description,
                 'priority'    => $request->priority ?? 'medium',
             ];
 
+            Log::info('Ticket API Payload', $payload);
+
             $httpRequest = Http::timeout(30);
 
-            // Attach screenshot if provided
             if ($request->hasFile('attachment')) {
+
                 $file = $request->file('attachment');
+
+                Log::info('Attachment Found', [
+                    'name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
+                    'mime' => $file->getMimeType(),
+                ]);
+
                 $httpRequest = $httpRequest->attach(
                     'attachment',
                     file_get_contents($file->getRealPath()),
@@ -72,16 +91,38 @@ class GrievanceController extends Controller
                 );
             }
 
-            $response = $httpRequest->post("{$this->apiBaseUrl}/raise-ticket", $payload);
-            // dd($response->json());
+            Log::info('Calling API', [
+                'url' => "{$this->apiBaseUrl}/raise-ticket"
+            ]);
+
+            $response = $httpRequest->post(
+                "{$this->apiBaseUrl}/raise-ticket",
+                $payload
+            );
+
+            Log::info('API Response', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+                'json' => $response->json(),
+            ]);
 
             if ($response->successful()) {
+
+                Log::info('Ticket Raised Successfully', [
+                    'response' => $response->json()
+                ]);
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Ticket raised successfully',
-                    'data'    => $response->json('data'),
+                    'data' => $response->json('data'),
                 ]);
             }
+
+            Log::error('API Returned Error', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
 
             return response()->json([
                 'success' => false,
@@ -89,10 +130,17 @@ class GrievanceController extends Controller
             ], $response->status());
 
         } catch (\Exception $e) {
-            Log::error('Grievance Submit Error: ');
+
+            Log::error('Grievance Submit Exception', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Something went wrong. Please try again.' . $e->getMessage(),
+                'message' => 'Something went wrong. Please try again. ' . $e->getMessage(),
             ], 500);
         }
     }
