@@ -72,7 +72,7 @@ class GrievanceController extends Controller
 
             Log::info('Ticket API Payload', $payload);
 
-            $httpRequest = Http::timeout(30)->acceptJson();
+            $httpRequest = Http::timeout(30);
 
             if ($request->hasFile('attachment')) {
 
