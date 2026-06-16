@@ -30,11 +30,11 @@
                     <!-- Welcome Message -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="card bg-primary text-white">
+                            <div class="card bg-primary-gradient text-white">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <h4 class="mb-2">Welcome Back, {{ $user->first_name }} {{ $user->last_name }}!</h4>
+                                            <h4 class="mb-2 text-white">Welcome Back, {{ $user->first_name }} {{ $user->last_name }}!</h4>
                                             <p class="mb-0">Track ID: <strong>{{ $user->track_id }}</strong> | Membership: <strong>{{ $user->membership_type }}</strong></p>
                                         </div>
                                         <div class="flex-shrink-0">
