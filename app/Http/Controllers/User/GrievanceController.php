@@ -36,6 +36,7 @@ class GrievanceController extends Controller
 
     public function submitTicket(Request $request)
     {
+
         $userId   = session('user_id');
         $userName = session('user_name');
 
@@ -55,7 +56,7 @@ class GrievanceController extends Controller
                 'username'    => $userName,
                 'subject'     => $request->subject,
                 'category'    => $request->category,
-                'description' => $request->description,
+                'message' => $request->description,
                 'priority'    => $request->priority ?? 'medium',
             ];
 
@@ -72,6 +73,7 @@ class GrievanceController extends Controller
             }
 
             $response = $httpRequest->post("{$this->apiBaseUrl}/raise-ticket", $payload);
+            // dd($response->json());
 
             if ($response->successful()) {
                 return response()->json([

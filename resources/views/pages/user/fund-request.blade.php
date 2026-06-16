@@ -42,39 +42,7 @@
                                 <select class="form-select" id="paymentMode" name="payment_mode" required>
                                     <option value="">Select</option>
                                 </select>
-                            </div>
-
-                            <!-- Dynamic bank details will be appended here -->
-
-                            {{-- <!-- Bank Details Section (Hidden initially) -->
-                            <div id="bankDetailsSection" style="display: none;">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label text-muted fw-medium">QR Code</label>
-                                    <div id="qrCodeDisplay" class="text-center p-3 bg-light rounded">
-                                        <img id="qrCodeImg" src="" alt="QR Code" class="img-fluid" style="max-width: 200px;">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label text-muted fw-medium">Bank Name</label>
-                                    <input type="text" class="form-control bg-light" id="bankName" readonly>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label text-muted fw-medium">IFSC Code</label>
-                                    <input type="text" class="form-control bg-light" id="ifscCode" readonly>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label text-muted fw-medium">Account NO.</label>
-                                    <input type="text" class="form-control bg-light" id="accountNo" readonly>
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label text-muted fw-medium">UPI Address</label>
-                                    <input type="text" class="form-control bg-light" id="upiAddress" readonly>
-                                </div>
-                            </div> --}}
+                            </div> 
 
                             <!-- Amount -->
                             <div class="col-md-4 mb-3">
@@ -246,9 +214,6 @@ document.getElementById('paymentMode').addEventListener('change', function () {
 
     const bankId = this.value;
 
-    // Remove old bank details if already rendered
-    document.getElementById('bankDetailsSection')?.remove();
-
     if (!bankId) return;
 
     const selectedBank = bankDetails.find(bank => bank.id == bankId);
@@ -356,7 +321,6 @@ document.getElementById('fundRequestForm').addEventListener('submit', function(e
         if (data.success) {
             showToast('Fund request submitted successfully!', 'success');
             document.getElementById('fundRequestForm').reset();
-            document.getElementById('bankDetailsSection').style.display = 'none';
         } else {
             showToast(data.message || 'Failed to submit fund request', 'error');
         }
