@@ -2,33 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MlmUser;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator; 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\MlmUser;
 
 class UserController extends Controller
 {
-    // Profile edit page
+     protected string $baseUrl;
+
+    public function __construct()
+    {
+        $this->baseUrl = config('services.api.base_url');
+    }
+
+     
     public function editProfile()
     {
+       
+        
         $userId = Session::get('user_id');
 
         if (!$userId) {
-            return redirect()->route('login')->with('error', 'Please login first.');
+            return redirect()
+                ->route('login')
+                ->with('error', 'Your session has expired. Please log in again.');
         }
 
-        $user = MlmUser::find($userId);
+        try {
+            $response = Http::timeout(10)->get($this->baseUrl  . '/profile', ['user_id' => $userId]);
 
-        if (!$user) {
-            Session::flush();
-            return redirect()->route('login')->with('error', 'User not found.');
+            if ($response->failed()) {
+                Log::error('Profile API request failed', [
+                    'user_id' => $userId,
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+
+                return redirect()
+                    ->back()
+                    ->with('error', 'Unable to load your profile at the moment. Please try again later.');
+            }
+
+            $profile = $response->json();
+
+            if (empty($profile) || empty($profile['data'])) {
+                Session::flush();
+
+                return redirect()
+                    ->route('login')
+                    ->with('error', 'Profile information could not be found. Please log in again.');
+            }
+
+            return view('pages.edit-my-profile', [
+                'user' => $profile['data']
+            ]);
+
+        } catch (Exception $e) {
+
+            Log::error('Error while fetching profile', [
+                'user_id' => $userId,
+                'message' => $e->getMessage(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Something went wrong while loading your profile. Please try again.');
         }
-
-        return view('pages.edit-my-profile', compact('user'));
     }
 
     // Profile update
@@ -38,41 +84,62 @@ class UserController extends Controller
 
         if (!$userId) {
             return redirect()->route('login');
-        }
+        } 
 
-        $user = MlmUser::find($userId);
-
-        if (!$user) {
-            return redirect()->route('login');
-        }
-
-        if ($user->profile_update_count >= 1) {
-            return back()->with('error', 'Aap sirf 1 baar update kar sakte hain. Admin se contact karein.');
-        }
-
-        $validated = $request->validate([
-            'father_name' => 'nullable|string|max:255',
-            'dob' => 'nullable|date',
-            'sex' => 'nullable|in:Male,Female,Other',
-            'address' => 'nullable|string|max:500',
-            'pincode' => 'nullable|string|max:10',
-            'gstin' => 'nullable|string|max:20',
-            'state' => 'nullable|string|max:100',
-            'district' => 'nullable|string|max:100',
-            'bank_name' => 'nullable|string|max:255',
-            'branch_name' => 'nullable|string|max:255',
-            'account_type' => 'nullable|string|max:50',
-            'account_number' => 'nullable|string|max:50',
-            'account_holder_name' => 'nullable|string|max:255',
-            'ifsc_code' => 'nullable|string|max:20',
-            'nominee_name' => 'nullable|string|max:255',
-            'nominee_relation' => 'nullable|string|max:100',
+         $validated = $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name'  => 'required|string|max:100',
+            'phone'      => 'required|string|max:20',
         ]);
 
-        $user->update($validated);
-        $user->increment('profile_update_count');
+        try {
+            $response = Http::timeout(10)->post(
+                $this->baseUrl . '/profile/update',
+                [
+                    'user_id'    => $userId,
+                    'first_name' => $validated['first_name'],
+                    'last_name'  => $validated['last_name'],
+                    'phone'      => $validated['phone'],
+                ]
+            );
 
-        return back()->with('success', 'Profile updated successfully!');
+            if (!$response->successful()) {
+                Log::error('Profile update API failed', [
+                    'user_id' => $userId,
+                    'status'  => $response->status(),
+                    'body'    => $response->body(),
+                ]);
+
+                return back()
+                    ->withInput()
+                    ->with('error', 'Unable to update profile. Please try again.');
+            }
+
+            $result = $response->json();
+
+            if (isset($result['status']) && $result['status'] === false) {
+                return back()
+                    ->withInput()
+                    ->with('error', $result['message'] ?? 'Profile update failed.');
+            }
+
+            return back()->with(
+                'success',
+                $result['message'] ?? 'Profile updated successfully.'
+            );
+
+        } catch (\Throwable $e) {
+
+            Log::error('Profile update exception', [
+                'user_id' => $userId,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again later.');
+        }
+
     }
 
     // Profile image edit page
@@ -148,9 +215,9 @@ class UserController extends Controller
 
         $user = MlmUser::find($userId);
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'User not found.');
-        }
+        // if (!$user) {
+        //     return redirect()->route('login')->with('error', 'User not found.');
+        // }
 
         return view('pages.change-password', compact('user'));
     }
@@ -164,46 +231,61 @@ class UserController extends Controller
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
-        $user = MlmUser::find($userId);
-
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'User not found.');
-        }
-
-        // Validation
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string',
-            'new_password' => 'required|string|min:6|confirmed',
-        ], [
-            'old_password.required' => 'Old password is required.',
-            'new_password.required' => 'New password is required.',
-            'new_password.min' => 'New password must be at least 6 characters.',
-            'new_password.confirmed' => 'New password confirmation does not match.',
+        $validated = $request->validate([
+            'old_password' => ['required'],
+            'new_password' => ['required', 'min:6', 'confirmed'],
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        try {
+
+            $response = Http::timeout(10)
+                ->post(
+                    $this->baseUrl . '/change-password',
+                    [
+                        'user_id' => $userId,
+                        'old_password' => $validated['old_password'],
+                        'new_password' => $validated['new_password'],
+                        'new_password_confirmation' => $request->new_password_confirmation,
+                    ]
+                );
+
+            $result = $response->json();
+
+            if (!$response->successful()) {
+
+                Log::error('Change password API failed', [
+                    'user_id' => $userId,
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+
+                return back()
+                    ->withInput()
+                    ->with(
+                        'error',
+                        $result['message'] ?? 'Unable to change password.'
+                    );
+            }
+
+            return back()->with(
+                'success',
+                $result['message'] ?? 'Password changed successfully.'
+            );
+
+        } catch (\Throwable $e) {
+
+            Log::error('Change password exception', [
+                'user_id' => $userId,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
         }
-
-        // Old password check karo
-        if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withErrors(['old_password' => 'Old password is incorrect.'])
-                ->withInput();
-        }
-
-        // New password same toh nahi hai na?
-        if (Hash::check($request->new_password, $user->password)) {
-            return back()->withErrors(['new_password' => 'New password must be different from old password.'])
-                ->withInput();
-        }
-
-        // Password update karo
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return redirect()->route('user.change-password')
-            ->with('success', 'Password changed successfully! Please login again.');
     }
       // Change Transaction Password Form
     public function showChangeTransactionPasswordForm()
