@@ -100,14 +100,14 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr>
+                                {{-- <tr>
                                     <td colspan="7" class="text-center py-5">
                                         <div class="py-5">
                                             <i class="las la-chart-pie fs-1 text-muted d-block mb-3"></i>
                                             <h5 class="text-muted">No Fund Summary Found</h5>
                                             <p class="text-muted mb-0">No transactions available for the selected filters.</p>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @endforelse
                             </tbody>

@@ -56,6 +56,16 @@
 
     <!-- App js -->
     <script src="{{ url ('assets/js/app.js')}}"></script>
+    <script>
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('mainToast');
+            const toastMessage = document.getElementById('toastMessage');
+            toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+            toast.classList.add(type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : type === 'warning' ? 'bg-warning' : 'bg-info');
+            toastMessage.textContent = message;
+            new bootstrap.Toast(toast, { delay: 4000 }).show();
+        }
+    </script>
     @stack('scripts')
 </body>
 

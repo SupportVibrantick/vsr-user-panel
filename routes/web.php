@@ -12,10 +12,10 @@ use App\Http\Controllers\User\FundRequestController;
 use App\Http\Controllers\User\FundRequestStatusController;
 use App\Http\Controllers\User\FundTransferController;
 use App\Http\Controllers\User\FundHistoryController;
-    use App\Http\Controllers\User\WalletController;
-    use App\Http\Controllers\User\DirectIncomeController;
-    use App\Http\Controllers\User\MatchingIncomeController;
-    use App\Http\Controllers\User\CashBonusRequestController;
+use App\Http\Controllers\User\WalletController;
+use App\Http\Controllers\User\DirectIncomeController;
+use App\Http\Controllers\User\MatchingIncomeController;
+use App\Http\Controllers\User\CashBonusRequestController;
 use App\Http\Controllers\User\ClaimCashRequestController;
 use App\Http\Controllers\User\CashBonusHistoryController;
 use App\Http\Controllers\User\GenerationIncomeController;
@@ -33,27 +33,27 @@ use App\Http\Controllers\User\OtherProductsController;
 use App\Http\Controllers\User\GrievanceController;
 use App\Http\Controllers\User\KycController;
 
-// 1. Login routes (GET shows form, POST processes login)
-Route::match(['get', 'post'], '/', [LoginController::class, 'handleLogin'])->name('login');
+    // 1. Login routes (GET shows form, POST processes login)
+    Route::match(['get', 'post'], '/', [LoginController::class, 'handleLogin'])->name('login');
 
-// Dashboard (protected)
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-// 3. Logout route
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-
-// Buy Now Routes
-Route::get('/buy-now', [ProductController::class, 'buyNow'])->name('buy-now');
-Route::post('/purchase', [ProductController::class, 'purchase'])->name('purchase');
+    // Dashboard (protected)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // 3. Logout route
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 
+    // Buy Now Routes
+    Route::get('/buy-now', [ProductController::class, 'buyNow'])->name('buy-now');
+    Route::post('/purchase', [ProductController::class, 'purchase'])->name('purchase');
 
-Route::get('/my-profile', [UserController::class, 'editProfile'])->name('user.profile');
-Route::post('/my-profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
- Route::get('/profile-image', [UserController::class, 'editProfileImage'])->name('user.profile.image');
+
+
+    Route::get('/my-profile', [UserController::class, 'editProfile'])->name('user.profile');
+    Route::post('/my-profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+
+    Route::get('/profile-image', [UserController::class, 'editProfileImage'])->name('user.profile.image');
     Route::post('/profile-image/upload', [UserController::class, 'uploadProfileImage'])->name('user.profile.image.upload');
 
     Route::get('/change-password', [UserController::class, 'showChangePasswordForm'])->name('user.change-password');
@@ -66,6 +66,11 @@ Route::post('/my-profile/update', [UserController::class, 'updateProfile'])->nam
     // Forgot transaction password
     Route::get('/forgot-transaction-password', [UserController::class, 'showForgotTransactionPasswordForm'])->name('user.forgot-transaction-password');
     Route::post('/forgot-transaction-password', [UserController::class, 'forgotTransactionPassword'])->name('user.forgot-transaction-password.submit');
+    
+    Route::get('/user-registration', function () {
+        return view('pages.user.registration');
+    })->name('user.registration');
+
 
 
      Route::get('/welcome-letter', [UserController::class, 'welcomeLetter'])->name('user.welcome-letter');

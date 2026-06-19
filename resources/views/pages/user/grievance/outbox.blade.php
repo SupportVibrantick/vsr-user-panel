@@ -75,6 +75,7 @@
                                     <th>Date Raised</th>
                                     <th class="text-center">Status</th>
                                     <th>Admin Reply</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,7 +155,8 @@ function loadOutbox(status = '') {
                     priorityBadge[item.priority] ?? item.priority ?? 'N/A',
                     formatDate(item.created_at),
                     statusBadge[item.status] ?? `<span class="badge bg-secondary">${item.status ?? 'N/A'}</span>`,
-                    adminReply,
+                    // adminReply,
+                    `<button type="button" class="btn btn-primary view-messages"  data-id="${item.id}">View Message</button>`,
                 ]);
             });
             dataTable.draw();
