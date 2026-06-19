@@ -13,7 +13,7 @@
                         <h4 class="mb-0 fs-20">
                             <i class="las la-ticket-alt text-primary me-2"></i>RAISE TICKET
                         </h4>
-                        <a href="{{ route('user.grievance.outbox') }}" class="btn btn-outline-secondary ms-2">
+                        <a href="{{ route('user.grievance.outbox') }}" class="btn btn-outline-primary ms-2">
                             <i class="las la-inbox me-1"></i>View My Tickets
                         </a>
                     </div>
@@ -101,14 +101,14 @@
 
 @push('scripts')
 <script>
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('mainToast');
-    const toastMessage = document.getElementById('toastMessage');
-    toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
-    toast.classList.add(type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : type === 'warning' ? 'bg-warning' : 'bg-info');
-    toastMessage.textContent = message;
-    new bootstrap.Toast(toast, { delay: 4000 }).show();
-}
+// function showToast(message, type = 'success') {
+//     const toast = document.getElementById('mainToast');
+//     const toastMessage = document.getElementById('toastMessage');
+//     toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+//     toast.classList.add(type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : type === 'warning' ? 'bg-warning' : 'bg-info');
+//     toastMessage.textContent = message;
+//     new bootstrap.Toast(toast, { delay: 4000 }).show();
+// }
 
 // File size check
 document.getElementById('attachmentInput').addEventListener('change', function () {

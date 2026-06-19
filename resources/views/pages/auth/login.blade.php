@@ -20,6 +20,11 @@
     <link href="{{ url('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ url('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .bg-primary-gradient{
+            background: linear-gradient(135deg, #284a8a 0%, #aece5b 100%)
+        }
+    </style>
 
 </head>
 
@@ -34,21 +39,22 @@
                         <div class="w-100">
                             <div class="d-flex flex-column h-100 py-0 py-xl-4">
 
-                                <div class="text-center mb-5">
-                                    <a href="{{ route('dashboard') }}">
-                                        <span class="logo-lg">
-                                            <img src="{{ url ('assets/images/logo.webp')}}" alt="" height="21">
-                                        </span>
-                                    </a>
-                                </div>
+                                
 
                                 <div class="card my-auto overflow-hidden">
                                     <div class="row g-0">
                                         <div class="col-lg-6">
                                             <div class="p-lg-5 p-4">
+                                                <div class="text-center mb-5">
+                                                    <a href="{{ route('dashboard') }}">
+                                                        <span class="logo-lg">
+                                                            <img src="{{ url ('assets/images/logo.webp')}}" alt="" height="60">
+                                                        </span>
+                                                    </a>
+                                                </div>
                                                 <div class="text-center">
                                                     <h5 class="mb-0">Welcome Back !</h5>
-                                                    <p class="text-muted mt-2">Sign in to continue to Invoika.</p>
+                                                    <p class="text-muted mt-2">Sign in to continue to VSR MLM.</p>
                                                 </div>
 
                                                 <div class="mt-4">
@@ -112,16 +118,16 @@
                                                         </div>
 
                                                         {{-- <div class="form-check form-check-primary fs-16 py-2">
-        <input class="form-check-input" type="checkbox" name="remember" id="remember-check">
-        <div class="float-end">
-            <a href="{{ route('password.request') }}" class="text-muted text-decoration-underline fs-14">
-                Forgot your password?
-            </a>
-        </div>
-        <label class="form-check-label fs-14" for="remember-check">
-            Remember me
-        </label>
-    </div> --}}
+                                                            <input class="form-check-input" type="checkbox" name="remember" id="remember-check">
+                                                            <div class="float-end">
+                                                                <a href="{{ route('password.request') }}" class="text-muted text-decoration-underline fs-14">
+                                                                    Forgot your password?
+                                                                </a>
+                                                            </div>
+                                                            <label class="form-check-label fs-14" for="remember-check">
+                                                                Remember me
+                                                            </label>
+                                                        </div> --}}
 
                                                         <div class="mt-2">
                                                             <button class="btn btn-primary w-100" type="submit">Log
@@ -129,12 +135,12 @@
                                                         </div>
 
                                                         {{-- <div class="mt-4 text-center">
-        <p class="mb-0">Don't have an account? 
-            <a href="{{ route('register') }}" class="fw-medium text-primary text-decoration-underline">
-                Signup now
-            </a>
-        </p>
-    </div> --}}
+                                                            <p class="mb-0">Don't have an account? 
+                                                                <a href="{{ route('register') }}" class="fw-medium text-primary text-decoration-underline">
+                                                                    Signup now
+                                                                </a>
+                                                            </p>
+                                                        </div> --}}
                                                     </form>
                                                 </div>
 
@@ -144,7 +150,7 @@
                                         <div class="col-lg-6">
                                             <div class="d-flex h-100 bg-auth align-items-end">
                                                 <div class="p-lg-5 p-4">
-                                                    <div class="bg-overlay bg-primary"></div>
+                                                    <div class="bg-overlay bg-primary-gradient"></div>
                                                     <div class="p-0 p-sm-4 px-xl-0 py-5">
                                                         <div id="reviewcarouselIndicators"
                                                             class="carousel slide auth-carousel"

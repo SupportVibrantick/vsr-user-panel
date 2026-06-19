@@ -73,7 +73,7 @@
                 <div class="dropdown header-item">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-4.jpg" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="{{ session('profile_image') }}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block fw-medium user-name-text fs-16">{{ session('first_name') }} {{ session('last_name') }} <i class="las la-angle-down fs-12 ms-1"></i></span>
                             </span>
@@ -82,6 +82,7 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <a class="dropdown-item" href="{{ route('user.profile') }}"><i class="bx bx-user fs-15 align-middle me-1"></i> <span key="t-profile">Profile</span></a>
+                        <a class="dropdown-item" href="{{ route('user.registration') }}"><i class="bx bx-user fs-15 align-middle me-1"></i> <span key="t-profile">Registration</span></a>
 
                         {{-- <a class="dropdown-item" href="#"><i class="bx  bx-user fs-15 align-middle me-1"></i> <span key="t-profile">Registration</span></a> --}}
 

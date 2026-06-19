@@ -175,199 +175,199 @@
 
 <!-- Print Styles -->
 <style>
-@media print {
-    body * {
-        visibility: hidden;
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        
+        #welcomeLetter, #welcomeLetter * {
+            visibility: visible;
+        }
+        
+        #welcomeLetter {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        
+        .no-print {
+            display: none !important;
+        }
+        
+        .letter-paper {
+            box-shadow: none !important;
+            margin: 0 !important;
+            padding: 20px !important;
+        }
+        
+        @page {
+            margin: 1cm;
+        }
     }
-    
-    #welcomeLetter, #welcomeLetter * {
-        visibility: visible;
+
+    /* Letter Styling */
+    .welcome-letter-container {
+        background: #f5f5f5;
+        padding: 20px;
     }
-    
-    #welcomeLetter {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-    
-    .no-print {
-        display: none !important;
-    }
-    
+
     .letter-paper {
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 20px !important;
+        background: white;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        border-radius: 8px;
     }
-    
-    @page {
-        margin: 1cm;
+
+    .letter-header {
+        margin-bottom: 20px;
     }
-}
 
-/* Letter Styling */
-.welcome-letter-container {
-    background: #f5f5f5;
-    padding: 20px;
-}
+    .company-logo {
+        max-width: 220px;
+        height: auto;
+    }
 
-.letter-paper {
-    background: white;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
+    .company-name {
+        color: #1e3a8a;
+        font-weight: bold;
+        margin: 0;
+        font-size: 28px;
+    }
 
-.letter-header {
-    margin-bottom: 20px;
-}
+    .company-tagline {
+        color: #666;
+        font-size: 14px;
+        margin: 5px 0 0 0;
+    }
 
-.company-logo {
-    max-width: 220px;
-    height: auto;
-}
+    .letter-date {
+        font-size: 14px;
+        color: #333;
+    }
 
-.company-name {
-    color: #1e3a8a;
-    font-weight: bold;
-    margin: 0;
-    font-size: 28px;
-}
+    .letter-divider {
+        height: 3px;
+        background: var(--in-vertical-menu-item-active-bgcolor);
+        margin: 20px 0;
+    }
 
-.company-tagline {
-    color: #666;
-    font-size: 14px;
-    margin: 5px 0 0 0;
-}
+    .letter-title {
+        margin: 30px 0;
+    }
 
-.letter-date {
-    font-size: 14px;
-    color: #333;
-}
+    .letter-title h3 {
+        color: #1e3a8a;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+        text-decoration: underline;
+    }
 
-.letter-divider {
-    height: 3px;
-    background: linear-gradient(to right, #1e3a8a, #3b82f6);
-    margin: 20px 0;
-}
+    .letter-subtitle {
+        color: #666;
+        font-size: 14px;
+        margin: 10px 0 0 0;
+    }
 
-.letter-title {
-    margin: 30px 0;
-}
+    .letter-greeting {
+        margin: 20px 0;
+    }
 
-.letter-title h3 {
-    color: #1e3a8a;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-    text-decoration: underline;
-}
+    .letter-content {
+        line-height: 1.8;
+        text-align: justify;
+        margin-bottom: 15px;
+        color: #333;
+    }
 
-.letter-subtitle {
-    color: #666;
-    font-size: 14px;
-    margin: 10px 0 0 0;
-}
+    .section-title {
+        background: var(--in-vertical-menu-item-active-bgcolor);
+        color: white;
+        padding: 10px 15px;
+        margin: 25px 0 15px 0;
+        font-size: 16px;
+        border-radius: 4px;
+    }
 
-.letter-greeting {
-    margin: 20px 0;
-}
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-.letter-content {
-    line-height: 1.8;
-    text-align: justify;
-    margin-bottom: 15px;
-    color: #333;
-}
+    .details-table tr {
+        border-bottom: 1px solid #e0e0e0;
+    }
 
-.section-title {
-    background: #1e3a8a;
-    color: white;
-    padding: 10px 15px;
-    margin: 25px 0 15px 0;
-    font-size: 16px;
-    border-radius: 4px;
-}
+    .details-table td {
+        padding: 10px;
+        vertical-align: top;
+    }
 
-.details-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
+    .label-cell {
+        width: 20%;
+        color: #555;
+    }
 
-.details-table tr {
-    border-bottom: 1px solid #e0e0e0;
-}
+    .value-cell {
+        width: 30%;
+        color: #333;
+        font-weight: 500;
+    }
 
-.details-table td {
-    padding: 10px;
-    vertical-align: top;
-}
+    .letter-closing {
+        margin: 30px 0;
+    }
 
-.label-cell {
-    width: 20%;
-    color: #555;
-}
+    .signature-section {
+        margin-top: 50px;
+    }
 
-.value-cell {
-    width: 30%;
-    color: #333;
-    font-weight: 500;
-}
+    .signature-box {
+        margin-top: 40px;
+    }
 
-.letter-closing {
-    margin: 30px 0;
-}
+    .signature-line {
+        width: 200px;
+        height: 1px;
+        background: #333;
+        margin-bottom: 10px;
+    }
 
-.signature-section {
-    margin-top: 50px;
-}
+    .signature-role {
+        color: #666;
+        font-size: 12px;
+        margin: 5px 0 0 0;
+    }
 
-.signature-box {
-    margin-top: 40px;
-}
+    .letter-footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px solid #1e3a8a;
+    }
 
-.signature-line {
-    width: 200px;
-    height: 1px;
-    background: #333;
-    margin-bottom: 10px;
-}
+    .footer-content {
+        text-align: center;
+        color: #666;
+        font-size: 12px;
+    }
 
-.signature-role {
-    color: #666;
-    font-size: 12px;
-    margin: 5px 0 0 0;
-}
+    .footer-content p {
+        margin: 5px 0;
+    }
 
-.letter-footer {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 2px solid #1e3a8a;
-}
+    .footer-contact {
+        color: #333;
+    }
 
-.footer-content {
-    text-align: center;
-    color: #666;
-    font-size: 12px;
-}
-
-.footer-content p {
-    margin: 5px 0;
-}
-
-.footer-contact {
-    color: #333;
-}
-
-.footer-note {
-    font-style: italic;
-    color: #999;
-    font-size: 11px;
-    margin-top: 10px;
-}
+    .footer-note {
+        font-style: italic;
+        color: #999;
+        font-size: 11px;
+        margin-top: 10px;
+    }
 </style>
 @endsection

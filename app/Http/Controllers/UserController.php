@@ -61,7 +61,8 @@ class UserController extends Controller
             }
 
             return view('pages.edit-my-profile', [
-                'user' => $profile['data']
+                'user' => $profile['data'],
+                'data' => $profile,
             ]);
 
         } catch (Exception $e) {

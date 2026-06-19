@@ -66,6 +66,11 @@ use App\Http\Controllers\User\KycController;
     // Forgot transaction password
     Route::get('/forgot-transaction-password', [UserController::class, 'showForgotTransactionPasswordForm'])->name('user.forgot-transaction-password');
     Route::post('/forgot-transaction-password', [UserController::class, 'forgotTransactionPassword'])->name('user.forgot-transaction-password.submit');
+    
+    Route::get('/user-registration', function () {
+        return view('pages.user.registration');
+    })->name('user.registration');
+
 
 
      Route::get('/welcome-letter', [UserController::class, 'welcomeLetter'])->name('user.welcome-letter');
