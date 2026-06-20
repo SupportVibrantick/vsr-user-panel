@@ -37,6 +37,8 @@ class UserController extends Controller
 
         try {
             $response = Http::timeout(10)->get($this->baseUrl  . '/profile', ['user_id' => $userId]);
+        // dd($response->json());
+
 
             if ($response->failed()) {
                 Log::error('Profile API request failed', [
