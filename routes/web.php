@@ -36,6 +36,11 @@ use App\Http\Controllers\User\KycController;
     // 1. Login routes (GET shows form, POST processes login)
     Route::match(['get', 'post'], '/', [LoginController::class, 'handleLogin'])->name('login');
 
+    // Register page
+    Route::get('/register', function () {
+        return view('pages.auth.register');
+    })->name('register');
+
     // Dashboard (protected)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // 3. Logout route
