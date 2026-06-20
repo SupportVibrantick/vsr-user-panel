@@ -46,7 +46,7 @@ class LoginController extends Controller
             Session::put('last_name', $user->last_name);
             Session::put('email', $user->email);
             Session::put('phone', $user->phone);
-            Session::put('profile_iamge', 'http://127.0.0.1:8000/storage/profile-images/M42mbZR7lEvKzP49uEQNE46xu1QZrgaTcLQ1m8pH.png');
+            // Session::put('profile_iamge', 'http://127.0.0.1:8000/storage/profile-images/M42mbZR7lEvKzP49uEQNE46xu1QZrgaTcLQ1m8pH.png');
             Session::put('membership_type', $user->membership_type);
             Session::put('is_payout_active', $user->is_payout_active);
             Session::put('logged_in', true);

@@ -253,16 +253,16 @@
                                 <!-- Current Image Preview -->
                                 <div class="col-md-4 text-center mb-3 mb-md-0">
                                     <div class="border p-2 rounded" style="max-width: 200px;">
-                                        @if($user['detail']['profile_image'])
-                                            <img src="{{ $user['detail']['profile_image'] }}" 
-                                                alt="Profile Image" 
+                                        @if(!empty($user['detail']['profile_image']))
+                                            <img src="{{ $user['detail']['profile_image'] }}"
+                                                alt="Profile Image"
                                                 class="img-fluid rounded"
                                                 id="currentImage"
                                                 style="max-height: 200px; object-fit: cover;">
                                         @else
-                                            <img src="{{ asset('assets/images/avatar/1.png') }}" 
-                                                alt="Default Profile" 
-                                                class="img-fluid rounded"
+                                            <img src="{{ asset('assets/images/user-placeholder.png') }}"
+                                                alt="Default Profile"
+                                                class="img-fluid rounded bg-white"
                                                 id="currentImage"
                                                 style="max-height: 200px; object-fit: cover;">
                                         @endif

@@ -71,9 +71,11 @@
 
              
                 <div class="dropdown header-item">
-                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn border rounded-pill" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="{{ session('profile_image') }}" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user"
+                                        src="{{ !empty(session('profile_image')) ? session('profile_image') : asset('assets/images/user-placeholder.png') }}"
+                                        alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block fw-medium user-name-text fs-16">{{ session('first_name') }} {{ session('last_name') }} <i class="las la-angle-down fs-12 ms-1"></i></span>
                             </span>
