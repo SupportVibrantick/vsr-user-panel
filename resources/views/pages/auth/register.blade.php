@@ -51,12 +51,12 @@
     <div class="account-pages">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-11">
+                <div class="col-md-12">
                     <div class="auth-full-page-content d-flex min-vh-100 py-sm-5 py-4">
                         <div class="w-100">
                             <div class="d-flex flex-column h-100 py-0 py-xl-4">
 
-                                <div class="card my-auto overflow-hidden">
+                                <div class="card my-auto overflow-hidden shadow-lg">
                                     <div class="row g-0">
                                         <div class="col-lg-12">
                                             <div class="p-lg-5 p-4">

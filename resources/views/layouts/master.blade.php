@@ -21,6 +21,7 @@
     <!-- Icons Css -->
     <link href="{{ url ('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.css">
     <link href="{{ url ('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @stack('styles')
@@ -53,6 +54,10 @@
 
     <!-- Dashboard init -->
     <script src="{{ url ('assets/js/pages/dashboard.init.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <!-- App js -->
     <script src="{{ url ('assets/js/app.js')}}"></script>

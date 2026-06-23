@@ -35,7 +35,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
                                             <h4 class="mb-2 text-white">Welcome Back, {{ $user->first_name }} {{ $user->last_name }}!</h4>
-                                            <p class="mb-0">Track ID: <strong>{{ $user->track_id }}</strong> | Membership: <strong>{{ $user->membership_type }}</strong></p>
+                                            <p class="mb-0"> <strong>Track ID: </strong> <span class="badge text-bg-success">{{ $user->track_id }}</span> | <strong>Membership: </strong> <span class="badge text-bg-success">{{ ucwords(str_replace('_', ' ', $user->membership_type)) }}</span></p>
                                         </div>
                                         <div class="flex-shrink-0">
                                             <i class="las la-user-circle" style="font-size: 60px;"></i>

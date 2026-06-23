@@ -159,6 +159,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ✅ Load bank details using Fetch API
 function loadBankDetails() {
+     Swal.fire({
+        title: 'Loading...',
+        text: 'Fetching bank details',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     const apiUrl = '{{ route("user.fund-request.bank-details") }}';
     console.log('📡 Fetching from:', apiUrl);
     
@@ -174,6 +183,7 @@ function loadBankDetails() {
         return response.json();
     })
     .then(response => {
+        Swal.close();
         console.log('✅ Response received:', response);
         
         if (response.success && response.data && response.data.length > 0) {
@@ -181,12 +191,14 @@ function loadBankDetails() {
             console.log('✅ Bank details loaded:', bankDetails);
             populatePaymentModeDropdown(bankDetails);
             showToast('Bank details loaded successfully', 'success');
+            
         } else {
             console.warn('⚠️ No bank details found');
             showToast('No bank details available', 'warning');
         }
     })
     .catch(error => {
+        Swal.close();
         console.error('❌ Fetch Error:', error);
         showToast('Failed to load bank details', 'error');
     });
@@ -211,8 +223,9 @@ function populatePaymentModeDropdown(banks) {
 }
 
 document.getElementById('paymentMode').addEventListener('change', function () {
-
+    document.querySelectorAll('.bank-column').forEach(el => el.remove());
     const bankId = this.value;
+
 
     if (!bankId) return;
 
@@ -224,7 +237,7 @@ document.getElementById('paymentMode').addEventListener('change', function () {
             ${
                 selectedBank.image
                 ? `
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3 bank-column">
                     <label class="form-label text-muted fw-medium">QR Code</label>
                     <div class="text-center p-3 bg-light rounded">
                         <img src="/storage/${selectedBank.image}"
@@ -236,25 +249,25 @@ document.getElementById('paymentMode').addEventListener('change', function () {
                 : ''
             }
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 bank-column">
                 <label class="form-label text-muted fw-medium">Bank Name</label>
                 <input type="text" class="form-control bg-light"
                        value="${selectedBank.bank_name || 'N/A'}" readonly>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 bank-column">
                 <label class="form-label text-muted fw-medium">IFSC Code</label>
                 <input type="text" class="form-control bg-light"
                        value="${selectedBank.ifsc_code || 'N/A'}" readonly>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 bank-column">
                 <label class="form-label text-muted fw-medium">Account No.</label>
                 <input type="text" class="form-control bg-light"
                        value="${selectedBank.account_no || 'N/A'}" readonly>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 bank-column">
                 <label class="form-label text-muted fw-medium">UPI Address</label>
                 <input type="text" class="form-control bg-light"
                        value="${selectedBank.address || 'N/A'}" readonly>
@@ -319,6 +332,7 @@ document.getElementById('fundRequestForm').addEventListener('submit', function(e
         console.log('Submit response:', data);
         
         if (data.success) {
+            document.querySelectorAll('.bank-column').forEach(el => el.remove());
             showToast('Fund request submitted successfully!', 'success');
             document.getElementById('fundRequestForm').reset();
         } else {

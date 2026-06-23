@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
 
 class UserMLMController extends Controller
 {
@@ -52,6 +54,7 @@ class UserMLMController extends Controller
             ];
 
             $response = Http::timeout(10)->get("{$this->apiBaseUrl}/team/downline", $queryParams);
+           
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -76,9 +79,11 @@ class UserMLMController extends Controller
         ]);
     }
 
-    public function genealogy()
+    public function genealogy(Request $request)
     {
-        $userId = session('user_id'); 
+        
+        $userId = $request->user_id ?? session('user_id');
+        
         if (!$userId) return redirect()->route('login')->with('error', 'Please login first.');
 
         try {
@@ -154,7 +159,34 @@ class UserMLMController extends Controller
         /**
      * Returns HTML for the tree of a specific user (for AJAX)
      */
-        public function getUserTreeHtml($userId)
+    // public function getUserTreeHtml($userId)
+    // {
+    //     try {
+    //         $response = Http::timeout(10)->get("{$this->apiBaseUrl}/team/genealogy?user_id={$userId}");
+            
+    //         if ($response->successful()) {
+    //             $data = $response->json();
+    //             $treeData = $data['tree_data'] ?? null;
+                
+    //             if ($treeData) {
+    //                 // ✅ FIX: 'user.partials.tree-node'
+    //                 $html = view('pages.user.partials.tree-node', [
+    //                     'node' => $treeData, 
+    //                     'isRoot' => true, 
+    //                     'depth' => 0
+    //                 ])->render();
+                    
+    //                 return response($html);
+    //             }
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Error ko log karein taaki pata chale kya gadbad hai
+    //         Log::error('Tree HTML Error: ' . $e->getMessage());
+    //     }
+        
+    //     return response('<div class="alert alert-warning text-center">Tree data not found.</div>', 404);
+    // }
+    public function getUserTree($userId)
     {
         try {
             $response = Http::timeout(10)->get("{$this->apiBaseUrl}/team/genealogy?user_id={$userId}");

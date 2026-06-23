@@ -40,7 +40,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
-
                 <!-- Stats Cards -->
                 <div class="row g-3 mb-4 mt-4">
                     <div class="col-md-3">
@@ -154,7 +153,7 @@
                                     <tr>
                                         <th class="text-center" style="width: 50px;">SrNo</th>
                                         <th>Username</th>
-                                        <th>UserId</th>
+                                        {{-- <th>UserId</th> --}}
                                         <th>Name</th>
                                         <th>Status</th>
                                         <th>State</th>
@@ -170,80 +169,80 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($directTeam as $index => $member)
+                                    @forelse($directTeam['data'] as $index => $member)
                                         <tr>
                                             <td class="text-center fw-bold">{{ $loop->iteration }}</td>
-                                            <td><span class="fw-semibold">{{ $member->user_name ?? 'N/A' }}</span></td>
-                                            <td><span
-                                                    class="badge bg-light text-dark">{{ $member->unique_id ?? ($member->user_id ?? ($member->id ?? 'N/A')) }}</span>
-                                            </td>
+                                            <td><span class="fw-semibold">{{ $member['user_name'] ?? 'N/A' }}</span></td>
+                                            {{-- <td>
+                                                <span class="badge bg-light text-dark">{{ $member['unique_id'] ?? ($member['user_id'] ?? ($member['id'] ?? 'N/A')) }}</span>
+                                            </td> --}}
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
                                                         <div
                                                             class="avatar-xs rounded-circle bg-soft-primary d-flex align-items-center justify-content-center">
                                                             <span
-                                                                class="text-primary fw-bold">{{ substr($member->first_name ?? 'U', 0, 1) }}</span>
+                                                                class="text-primary fw-bold">{{ substr($member['first_name'] ?? 'U', 0, 1) }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1 ms-2">
-                                                        <p class="mb-0 fw-semibold">{{ $member->first_name ?? '' }}
-                                                            {{ $member->last_name ?? '' }}</p>
+                                                        <p class="mb-0 fw-semibold">{{ $member['first_name'] ?? '' }}
+                                                            {{ $member['last_name'] ?? '' }}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 {{-- ✅ FIXED: Safe check for is_active --}}
-                                                @if ($member->is_active ?? false)
+                                                @if ($member['is_active'] ?? false)
                                                     <span class="badge bg-success">Active</span>
                                                 @else
                                                     <span class="badge bg-danger">Not Active</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $member->state ?? 'N/A' }}</td>
-                                            <td>{{ $member->city ?? 'N/A' }}</td>
+                                            <td>{{ $member['state'] ?? 'N/A' }}</td>
+                                            <td>{{ $member['city'] ?? 'N/A' }}</td>
                                             <td>
                                                 <span class="badge bg-info">
                                                     <i class="las la-sitemap me-1"></i>
-                                                    {{ ucfirst($member->position_in_sponsor_leg ?? ($member->position ?? 'Left Side')) }}
+                                                    {{ ucfirst($member['position_in_sponsor_leg'] ?? ($member['position'] ?? 'Left Side')) }}
                                                 </span>
                                             </td>
                                             <td>
-                                                @if ($member->created_at ?? false)
-                                                    {{ \Carbon\Carbon::parse($member->created_at)->format('d-m-Y') }}
+                                                @if ($member['created_at'] ?? false)
+                                                    {{ \Carbon\Carbon::parse($member['created_at'])->format('d-m-Y') }}
                                                 @else
                                                     N/A
                                                 @endif
                                             </td>
                                             <td>
                                                 <span
-                                                    class="badge bg-primary">{{ $member->package_name ?? 'Basic' }}</span>
+                                                    class="badge bg-primary">{{ $member['package_name'] ?? 'Basic' }}</span>
                                             </td>
                                             <td>
-                                                @if ($member->activated_at ?? false)
+                                                @if ($member['activated_at'] ?? false)
                                                     <span
-                                                        class="text-success fw-semibold">{{ \Carbon\Carbon::parse($member->activated_at)->format('d-m-Y') }}</span>
+                                                        class="text-success fw-semibold">{{ \Carbon\Carbon::parse($member['activated_at'])->format('d-m-Y') }}</span>
                                                 @else
                                                     <span class="text-muted">-</span>
                                                 @endif
                                             </td>
                                             <td class="text-center fw-bold">
-                                                {{ number_format($member->payout_balance->cc_balance ?? ($member->cc_balance ?? 0)) }}
+                                                {{ number_format($member['payout_balance']->cc_balance ?? ($member['cc_balance'] ?? 0)) }}
                                             </td>
                                             <td class="text-center text-muted">0</td>
                                             <td class="text-center fw-bold text-primary">
-                                                {{ number_format($member->payout_balance->cc_balance ?? ($member->cc_balance ?? 0)) }}
+                                                {{ number_format($member['payout_balance']->cc_balance ?? ($member['cc_balance'] ?? 0)) }}
                                             </td>
                                             <td>
                                                 <div class="d-flex gap-1">
                                                     <button type="button" class="btn btn-sm btn-primary"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#purchaseModal{{ $member->id ?? $index }}">
+                                                        data-bs-target="#purchaseModal{{ $member['id'] ?? $index }}">
                                                         <i class="las la-shopping-cart"></i> View Purchase
                                                     </button>
                                                     <button type="button" class="btn btn-sm btn-success"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#retreatModal{{ $member->id ?? $index }}">
+                                                        data-bs-target="#retreatModal{{ $member['id'] ?? $index }}">
                                                         <i class="las la-umbrella-beach"></i> View Retreat
                                                     </button>
                                                 </div>
@@ -273,26 +272,26 @@
         </div>
     </div>
 
-    @foreach ($directTeam as $index => $member)
+    @foreach ($directTeam['data'] as $index => $member)
         <!-- Purchase Modal -->
-        <div class="modal fade" id="purchaseModal{{ $member->id ?? $index }}" tabindex="-1">
+        <div class="modal fade" id="purchaseModal{{ $member['id'] ?? $index }}" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Purchase Details - {{ $member->user_name ?? 'N/A' }}</h5>
+                        <h5 class="modal-title">Purchase Details - {{ $member['user_name'] ?? 'N/A' }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>User:</strong> {{ $member->user_name ?? 'N/A' }}</p>
-                        <p><strong>Package:</strong> {{ $member->package_name ?? 'N/A' }}</p>
+                        <p><strong>User:</strong> {{ $member['user_name'] ?? 'N/A' }}</p>
+                        <p><strong>Package:</strong> {{ $member['package_name'] ?? 'N/A' }}</p>
                         <p><strong>Joining Date:</strong>
-                            @if ($member->created_at ?? false)
-                                {{ \Carbon\Carbon::parse($member->created_at)->format('d-m-Y') }}
+                            @if ($member['created_at'] ?? false)
+                                {{ \Carbon\Carbon::parse($member['created_at'])->format('d-m-Y') }}
                             @else
                                 N/A
                             @endif
                         </p>
-                        <p><strong>Amount:</strong> ₹{{ number_format($member->amount ?? 0) }}</p>
+                        <p><strong>Amount:</strong> ₹{{ number_format($member['amount'] ?? 0) }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -302,15 +301,15 @@
         </div>
 
         <!-- Retreat Modal -->
-        <div class="modal fade" id="retreatModal{{ $member->id ?? $index }}" tabindex="-1">
+        <div class="modal fade" id="retreatModal{{ $member['id'] ?? $index }}" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Retreat Details - {{ $member->user_name ?? 'N/A' }}</h5>
+                        <h5 class="modal-title">Retreat Details - {{ $member['user_name'] ?? 'N/A' }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>User:</strong> {{ $member->user_name ?? 'N/A' }}</p>
+                        <p><strong>User:</strong> {{ $member['user_name'] ?? 'N/A' }}</p>
                         <p><strong>Retreat Status:</strong> <span class="badge bg-warning">Pending</span></p>
                         <p><strong>Qualified Date:</strong> N/A</p>
                     </div>
