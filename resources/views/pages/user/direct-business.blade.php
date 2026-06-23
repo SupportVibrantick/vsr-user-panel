@@ -143,6 +143,8 @@
                     </div>
                 </div>
 
+                {{-- @dump($directTeam['data']) --}}
+
                 <!-- Direct Team Table -->
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
@@ -199,8 +201,8 @@
                                                     <span class="badge bg-danger">Not Active</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $member['state'] ?? 'N/A' }}</td>
-                                            <td>{{ $member['city'] ?? 'N/A' }}</td>
+                                            <td>{{ $member['detail']['state'] ?? 'N/A' }}</td>
+                                            <td>{{ $member['detail']['city'] ?? 'N/A' }}</td>
                                             <td>
                                                 <span class="badge bg-info">
                                                     <i class="las la-sitemap me-1"></i>
@@ -227,7 +229,7 @@
                                                 @endif
                                             </td>
                                             <td class="text-center fw-bold">
-                                                {{ number_format($member['payout_balance']->cc_balance ?? ($member['cc_balance'] ?? 0)) }}
+                                                {{ number_format($member['self_cc'] ?? 0) }}
                                             </td>
                                             <td class="text-center text-muted">0</td>
                                             <td class="text-center fw-bold text-primary">

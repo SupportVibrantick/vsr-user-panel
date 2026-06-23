@@ -64,7 +64,6 @@
                                     <th>Particular</th>
                                     <th>Invoice No.</th>
                                     <th class="text-center">Credit</th>
-                                    <th class="text-center">Debit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,7 +73,6 @@
                                 <tr>
                                     <td colspan="5" class="text-end fw-bold">Total</td>
                                     <td class="text-center fw-bold text-success" id="totalCredit">₹0.00</td>
-                                    <td class="text-center fw-bold text-danger" id="totalDebit">₹0.00</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -99,120 +97,121 @@
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
 <script>
-let dataTable;
+        let dataTable;
 
-// Toast function
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('mainToast');
-    const toastMessage = document.getElementById('toastMessage');
-    
-    toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
-    
-    switch(type) {
-        case 'success': toast.classList.add('bg-success'); break;
-        case 'error': toast.classList.add('bg-danger'); break;
-        case 'warning': toast.classList.add('bg-warning'); break;
-        default: toast.classList.add('bg-info');
-    }
-    
-    toastMessage.textContent = message;
-    new bootstrap.Toast(toast, { delay: 4000 }).show();
-}
-
-// Initialize DataTable
-function initializeTable() {
-    dataTable = $('#directIncomeTable').DataTable({
-        responsive: true,
-        pageLength: 10,
-        order: [[2, 'desc']], // Sort by Date
-        language: {
-            search: "Search:",
-            lengthMenu: "Show _MENU_ entries",
-            info: "Showing _START_ to _END_ of _TOTAL_ entries",
-            infoEmpty: "No entries available",
-            infoFiltered: "(filtered from _MAX_ total entries)",
-            zeroRecords: "No data available in table",
-            emptyTable: "No data available in table"
-        },
-        columnDefs: [
-            { orderable: false, targets: [0] }
-        ]
-    });
-}
-
-// Load Direct Income data
-function loadDirectIncomeData(dateFrom = '', dateTo = '') {
-    // Show loading state
-    dataTable.clear().draw();
-    
-    const url = `{{ route('user.direct-income.data') }}?date_from=${dateFrom}&date_to=${dateTo}`;
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                updateTableData(data.data);
-                updateTotals(data.totals);
-            } else {
-                showToast(data.message || 'Failed to load data', 'error');
+        // Toast function
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('mainToast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.classList.remove('bg-success', 'bg-danger', 'bg-warning', 'bg-info');
+            
+            switch(type) {
+                case 'success': toast.classList.add('bg-success'); break;
+                case 'error': toast.classList.add('bg-danger'); break;
+                case 'warning': toast.classList.add('bg-warning'); break;
+                default: toast.classList.add('bg-info');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showToast('An error occurred while loading data', 'error');
+            
+            toastMessage.textContent = message;
+            new bootstrap.Toast(toast, { delay: 4000 }).show();
+        }
+
+        // Initialize DataTable
+        function initializeTable() {
+            dataTable = $('#directIncomeTable').DataTable({
+                responsive: true,
+                pageLength: 10,
+                order: [[2, 'desc']], // Sort by Date
+                language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "No entries available",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    zeroRecords: "No data available in table",
+                    emptyTable: "No data available in table"
+                },
+                columnDefs: [
+                    { orderable: false, targets: [0] }
+                ]
+            });
+        }
+
+        // Load Direct Income data
+        function loadDirectIncomeData(dateFrom = '', dateTo = '') {
+            // Show loading state
+            dataTable.clear().draw();
+            
+            
+            const url = `{{ route('user.direct-income.data') }}?date_from=${dateFrom}&date_to=${dateTo}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateTableData(data.data);
+                        updateTotals(data.total);
+                    } else {
+                        showToast(data.message || 'Failed to load data', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('An error occurred while loading data', 'error');
+                });
+        }
+
+        // Update table with data
+        function updateTableData(transactions) {
+            dataTable.clear();
+            
+            if (transactions.length === 0) {
+                dataTable.draw();
+                return;
+            }
+            
+            transactions.forEach((transaction, index) => {
+                const creditAmount = transaction.type === 'credit' ? 
+                    `<span class="text-success fw-bold">₹${parseFloat(transaction.amount).toFixed(2)}</span>` : 
+                    '<span class="text-muted">-</span>';
+                
+                const debitAmount = transaction.type === 'debit' ? 
+                    `<span class="text-danger fw-bold">₹${parseFloat(transaction.amount).toFixed(2)}</span>` : 
+                    '<span class="text-muted">-</span>';
+                
+                dataTable.row.add([
+                    index + 1,
+                    '{{ session("user_name") }}',
+                    new Date(transaction.created_at).toLocaleDateString('en-GB'),
+                    transaction.particular || 'Direct Income',
+                    transaction.reference_id ? `INV-${transaction.reference_id}` : '-',
+                    creditAmount,
+                    debitAmount
+                ]);
+            });
+            
+            dataTable.draw();
+        }
+
+        // Update totals
+        function updateTotals(totals) {
+            document.getElementById('totalCredit').textContent = '₹' + parseFloat(totals || 0).toFixed(2);
+            // document.getElementById('totalDebit').textContent = '₹' + parseFloat(totals.debit || 0).toFixed(2);
+        }
+
+        // Form submission
+        document.getElementById('directIncomeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            loadDirectIncomeData(dateFrom, dateTo);
         });
-}
 
-// Update table with data
-function updateTableData(transactions) {
-    dataTable.clear();
-    
-    if (transactions.length === 0) {
-        dataTable.draw();
-        return;
-    }
-    
-    transactions.forEach((transaction, index) => {
-        const creditAmount = transaction.type === 'credit' ? 
-            `<span class="text-success fw-bold">₹${parseFloat(transaction.amount).toFixed(2)}</span>` : 
-            '<span class="text-muted">-</span>';
-        
-        const debitAmount = transaction.type === 'debit' ? 
-            `<span class="text-danger fw-bold">₹${parseFloat(transaction.amount).toFixed(2)}</span>` : 
-            '<span class="text-muted">-</span>';
-        
-        dataTable.row.add([
-            index + 1,
-            '{{ session("user_name") }}',
-            new Date(transaction.created_at).toLocaleDateString('en-GB'),
-            transaction.particular || 'Direct Income',
-            transaction.reference_id ? `INV-${transaction.reference_id}` : '-',
-            creditAmount,
-            debitAmount
-        ]);
-    });
-    
-    dataTable.draw();
-}
-
-// Update totals
-function updateTotals(totals) {
-    document.getElementById('totalCredit').textContent = '₹' + parseFloat(totals.credit || 0).toFixed(2);
-    document.getElementById('totalDebit').textContent = '₹' + parseFloat(totals.debit || 0).toFixed(2);
-}
-
-// Form submission
-document.getElementById('directIncomeForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const dateFrom = document.getElementById('dateFrom').value;
-    const dateTo = document.getElementById('dateTo').value;
-    loadDirectIncomeData(dateFrom, dateTo);
-});
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    initializeTable();
-    loadDirectIncomeData(); // Load all data by default
-});
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTable();
+            loadDirectIncomeData(); // Load all data by default
+        });
 </script>
 @endpush

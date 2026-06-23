@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    protected $apiBaseUrl;
+
+    public function __construct()
+    {
+        $this->apiBaseUrl = env('API_BASE_URL');
+    }
+
+
     public function buyNow()
     {
         $userId = Session::get('user_id');
@@ -31,15 +41,30 @@ class ProductController extends Controller
             ->where('user_id', $userId)
             ->where('wallet_id', 1)
             ->value('balance');
-            // dd($walletBalance);
 
         $walletBalance = $walletBalance ?? 0;
 
-        $products = DB::table('products')
-            ->where('status', 1)
-            ->where('in_stock', 1)
-            ->where('stock', '>', 0)
-            ->get();
+        // $products = DB::table('products')
+        //     ->where('status', 1)
+        //     ->where('in_stock', 1)
+        //     ->where('stock', '>', 0)
+        //     ->get();
+         $products = collect();
+
+        try {
+            $response = Http::timeout(10)
+                ->get("{$this->apiBaseUrl}/products");
+
+            if ($response->successful()) {
+                // Adjust according to your API response structure
+                // $products = $response->json('products') ?? $response->json();
+                $products = json_decode($response->body());
+                $products = $products->products;
+            }
+        } catch (\Exception $e) {
+            Log::error('Product API Error: ' . $e->getMessage());
+        }
+
 
         return view('pages.buy-now', compact(
             'products',

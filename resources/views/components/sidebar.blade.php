@@ -279,46 +279,46 @@
                             'icon' => 'las la-euro-sign',
                             'title' => 'Matching Income',
                         ],
-                        [
-                            'route' => 'user.cash-bonus-request',
-                            'icon' => 'las la-gift',
-                            'title' => 'Cash Bonus Request',
-                        ],
-                        [
-                            'route' => 'user.claim-cash-request',
-                            'icon' => 'las la-donate',
-                            'title' => 'Claim Cash Request',
-                        ],
-                        [
-                            'route' => 'user.cash-bonus-history',
-                            'icon' => 'las la-history',
-                            'title' => 'Cash Bonus History',
-                        ],
-                        [
-                            'route' => 'user.generation-income',
-                            'icon' => 'las la-chart-line',
-                            'title' => 'Generation Income',
-                        ],
-                        [
-                            'route' => 'user.awards-rewards',
-                            'icon' => 'las la-trophy',
-                            'title' => 'Awards and Rewards',
-                        ],
-                        [
-                            'route' => 'user.downline-rank',
-                            'icon' => 'las la-medal',
-                            'title' => 'Downline Rank',
-                        ],
-                        [
-                            'route' => 'user.weekly-payout',
-                            'icon' => 'las la-calendar-week',
-                            'title' => 'Weekly Payout',
-                        ],
-                        [
-                            'route' => 'user.retreat-tours',
-                            'icon' => 'las la-plane',
-                            'title' => 'Retreat, Asia, International Tours',
-                        ],
+                        // [
+                        //     'route' => 'user.cash-bonus-request',
+                        //     'icon' => 'las la-gift',
+                        //     'title' => 'Cash Bonus Request',
+                        // ],
+                        // [
+                        //     'route' => 'user.claim-cash-request',
+                        //     'icon' => 'las la-donate',
+                        //     'title' => 'Claim Cash Request',
+                        // ],
+                        // [
+                        //     'route' => 'user.cash-bonus-history',
+                        //     'icon' => 'las la-history',
+                        //     'title' => 'Cash Bonus History',
+                        // ],
+                        // [
+                        //     'route' => 'user.generation-income',
+                        //     'icon' => 'las la-chart-line',
+                        //     'title' => 'Generation Income',
+                        // ],
+                        // [
+                        //     'route' => 'user.awards-rewards',
+                        //     'icon' => 'las la-trophy',
+                        //     'title' => 'Awards and Rewards',
+                        // ],
+                        // [
+                        //     'route' => 'user.downline-rank',
+                        //     'icon' => 'las la-medal',
+                        //     'title' => 'Downline Rank',
+                        // ],
+                        // [
+                        //     'route' => 'user.weekly-payout',
+                        //     'icon' => 'las la-calendar-week',
+                        //     'title' => 'Weekly Payout',
+                        // ],
+                        // [
+                        //     'route' => 'user.retreat-tours',
+                        //     'icon' => 'las la-plane',
+                        //     'title' => 'Retreat, Asia, International Tours',
+                        // ],
                     ];
 
                     $walletRouteNames = collect($walletRoutes)->pluck('route')->toArray();

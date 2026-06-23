@@ -350,7 +350,7 @@
                                                 @forelse($orderHistory as $index => $order)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $order->order_id ?? 'N/A' }}</td>
+                                                    <td>{{ $order->id ?? 'N/A' }}</td>
                                                     <td>{{ $user->user_name }}</td>
                                                     <td>{{ date('d-m-Y', strtotime($order->created_at)) }}</td>
                                                     <td>{{ $order->delivery_type ?? 'By Courier' }}</td>
