@@ -50,6 +50,7 @@
                 </div>
             </div>
 
+
             <!-- Fund History Table -->
             <div class="card shadow-sm border-0">
                 <div class="card-body p-3">
@@ -66,32 +67,17 @@
                                     <th>Date</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                 @forelse($fundTransfer as $index => $fund)
+                            <tbody id="fundHistoryBody">
                                 <tr>
-                                    <td class="text-center fw-bold">{{ $loop->iteration }}</td>
-                                    <td>{{ $fund->user['name'] ?? 'N/A' }}</td>
-                                    <td>{{ $fund->sender_username ?? 'N/A' }}</td>
-                                    <td>₹{{ $fund->amount ?? '00' }}</td>
-                                    <td>{{ $fund->remark ?? '-' }}</td>
-                                    <td class="text-center"><span class="badge bg-info text-dark">{{ $fund->status ?? 'N/A' }}</span></td>
-                                    <td>{{ date('d-m-Y', strtotime($fund->created_at)) ?? '-' }}</td>
+                                    <td colspan="7" class="text-center">Loading...</td>
                                 </tr>
-                                @empty
-                                {{-- <tr>
-                                    <td colspan="7" class="text-center py-5">
-                                        <i class="las la-history fs-1 text-muted d-block mb-3"></i>
-                                        <h5 class="text-muted">No Fund History Found</h5>
-                                        <p class="text-muted mb-0">No transactions available for the selected filters.</p>
-                                    </td>
-                                </tr> --}}
-                                @endforelse
                             </tbody>
+
                             {{-- <tfoot class="table-dark">
                                 <tr>
-                                    <td colspan="5" cl₹{{ number_format($totals->creass="text-end fw-bold">Total</td>
-                                    <td class="text-center fw-bold text-success">dit ?? 0, 2) }}</td>
-                                    <td class="text-center fw-bold text-danger">₹{{ number_format($totals->debit ?? 0, 2) }}</td>
+                                    <td colspan="5" class="text-end fw-bold">Total</td>
+                                    <td class="text-center fw-bold text-success" id="totalCredit">₹0.00</td>
+                                    <td class="text-center fw-bold text-danger" id="totalDebit">₹0.00</td>
                                 </tr>
                             </tfoot> --}}
                         </table>
@@ -114,15 +100,114 @@
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('#fundHistoryTable').DataTable({
-        responsive: true,
-        pageLength: 10,
-        order: [[1, 'desc']]
-        language: {
-            emptyTable: "No Fund History Found"
+// $(document).ready(function() {
+//     $('#fundHistoryTable').DataTable({
+//         responsive: true,
+//         pageLength: 10,
+//         order: [[1, 'desc']]
+//         language: {
+//             emptyTable: "No Fund History Found"
+//         }
+//     });
+// });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            title: 'Loading...',
+            text: 'Please wait',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        fetch('http://127.0.0.1:8000/api/withdrawal-history?user_id=1') // Your API URL
+            .then(response => response.json())
+            .then(data => {
+
+                let tbody = document.getElementById('fundHistoryBody');
+                tbody.innerHTML = '';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Data loaded successfully',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+
+                if (data.data.length > 0) {
+
+                    data.data.forEach((fund, index) => {
+
+                        tbody.innerHTML += `
+                            <tr>
+                                <td class="text-center fw-bold">${index + 1}</td>
+                                <td>${fund.user?.name ?? 'N/A'}</td>
+                                <td>${fund.sender_username ?? 'N/A'}</td>
+                                <td>₹${fund.amount ?? '0.00'}</td>
+                                <td>${fund.remark ?? '-'}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-info text-dark">
+                                        ${fund.status ?? 'N/A'}
+                                    </span>
+                                </td>
+                                <td>${formatDate(fund.created_at)}</td>
+                            </tr>
+                        `;
+                    });
+
+                } else {
+
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                No Fund History Found
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                // Totals
+                // document.getElementById('totalCredit').innerText =
+                //     '₹' + parseFloat(data.totals.credit || 0).toFixed(2);
+
+                // document.getElementById('totalDebit').innerText =
+                //     '₹' + parseFloat(data.totals.debit || 0).toFixed(2);
+
+            })
+            .catch(error => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to load data!',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+
+                document.getElementById('fundHistoryBody').innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-danger">
+                            Failed to load data
+                        </td>
+                    </tr>
+                `;
+            });
+
+        function formatDate(dateString) {
+            let date = new Date(dateString);
+
+            let day = String(date.getDate()).padStart(2, '0');
+            let month = String(date.getMonth() + 1).padStart(2, '0');
+            let year = date.getFullYear();
+
+            return `${day}-${month}-${year}`;
         }
+
     });
-});
 </script>
 @endpush

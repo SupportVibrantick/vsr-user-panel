@@ -23,9 +23,7 @@ class DirectIncomeController extends Controller
         return view('pages.user.direct-income');
     }
 
-    /**
-     * Get Direct Income data via API
-     */
+    
     public function getDirectIncomeData(Request $request)
     {
         $userId = session('user_id');

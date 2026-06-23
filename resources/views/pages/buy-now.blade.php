@@ -44,6 +44,7 @@
                 </div>
             </div>
 
+
             <!-- Products List -->
             <div class="row">
                 @php
@@ -82,6 +83,7 @@
 
                             <h5 class="card-title text-primary">{{ $product->name }}</h5>
                             <p class="text-muted small">{{ Str::limit($product->short_description ?? 'Product Description', 60) }}</p>
+                            <span class="badge text-bg-primary">{{ Str::limit($product->category?->name ?? 'N/A', 60) }}</span>
                             
                             <ul class="list-unstyled mb-3 text-start px-3">
                                 <li class="d-flex justify-content-between"><span><strong>MRP:</strong></span> <span>₹{{ number_format($product->price, 2) }}</span></li>

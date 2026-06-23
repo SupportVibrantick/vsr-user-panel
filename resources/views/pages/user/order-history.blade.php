@@ -59,45 +59,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($orders as $index => $order)
+                                @forelse($orders['data'] as $index => $order)
                                 <tr>
                                     <td class="text-center fw-bold">{{ $loop->iteration }}</td>
                                     <td>
-                                        <span class="badge bg-primary">#{{ $order->order_no ?? $order->id ?? '-' }}</span>
+                                        <span class="badge bg-primary">#{{ $order['order_no'] ?? $order['id'] ?? '-' }}</span>
                                     </td>
                                     <td>
-                                        <strong>₹{{ number_format($order->total_amount ?? 0, 2) }}</strong>
+                                        <strong>₹{{ number_format($order['total_amount'] ?? 0, 2) }}</strong>
                                     </td>
                                     <td>
-                                        <strong>₹{{ number_format($order->total_amount ?? 0, 2) }}</strong>
+                                        <strong>₹{{ number_format($order['total_amount'] ?? 0, 2) }}</strong>
                                     </td>
                                     <td>
-                                        @if($order->date ?? false)
-                                            {{ \Carbon\Carbon::parse($order->created_at)->format('d-m-Y') }}
+                                        @if($order['created_at'] ?? false)
+                                            {{ \Carbon\Carbon::parse($order['created_at'])->format('d-m-Y') }}
                                         @else
                                             N/A
                                         @endif
                                     </td>
                                     <td>
-                                        @if(($order->status ?? '') === 'COMPLETED')
+                                        @if(($order['status'] ?? '') === 'COMPLETED')
                                             <span class="badge bg-success">
                                                 <i class="las la-check-circle me-1"></i>Completed
                                             </span>
-                                        @elseif(($order->status ?? '') === 'PENDING')
+                                        @elseif(($order['status'] ?? '') === 'PENDING')
                                             <span class="badge bg-warning text-dark">
                                                 <i class="las la-clock me-1"></i>Pending
                                             </span>
                                         @else
                                             <span class="badge bg-danger">
-                                                <i class="las la-times-circle me-1"></i>{{ $order->status ?? 'N/A' }}
+                                                <i class="las la-times-circle me-1"></i>{{ $order['status'] ?? 'N/A' }}
                                             </span>
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="badge bg-info text-dark">{{ $order->order_type ?? 'N/A' }}</span>
+                                        <span class="badge bg-info text-dark">{{ $order['order_type'] ?? 'N/A' }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-secondary">{{ strtoupper($order->payment_mode ?? 'N/A') }}</span>
+                                        <span class="badge bg-secondary">{{ strtoupper($order['payment_mode'] ?? 'N/A') }}</span>
                                     </td>
                                 </tr>
                                 @empty

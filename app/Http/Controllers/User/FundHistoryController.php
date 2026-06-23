@@ -53,6 +53,7 @@ class FundHistoryController extends Controller
         if (!$userId) {
             return redirect()->route('login')->with('error', 'Please login first.');
         }
+                return view('pages.user.withdrawal-history');
 
         try {
             $response = Http::timeout(10)->get("{$this->apiBaseUrl}/withdrawal-history", [
