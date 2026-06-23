@@ -23,7 +23,7 @@
     <!-- App Css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/treant-js/1.0/Treant.css">
     <link href="{{ url ('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="{{ url ('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{ url ('assets/css/style.css')}}" type="text/css" />
     @stack('styles')
 
 </head>
