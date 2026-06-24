@@ -285,7 +285,7 @@
                     try {
 
                         const response = await fetch(
-                            '{{ config("services.api.base_url") }}/purchase',
+                            '{{ config("services.api.base_url") }}/api/purchase',
                             {
                                 method: 'POST',
                                 headers: {
