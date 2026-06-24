@@ -123,7 +123,10 @@
             }
         });
 
-        fetch('http://127.0.0.1:8000/api/withdrawal-history?user_id=1') // Your API URL
+        const apiBaseUrl = "{{ config('services.api.base_url') }}";
+        const userId = "{{ session('user_id') }}";
+
+        fetch(`${apiBaseUrl}/withdrawal-history?user_id=${encodeURIComponent(userId)}`)  
             .then(response => response.json())
             .then(data => {
 
