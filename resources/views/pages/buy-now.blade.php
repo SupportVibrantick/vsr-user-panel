@@ -93,18 +93,29 @@
                             </ul>
 
                             @if($remainingProducts > 0 && $product->stock > 0)
-                            <!-- Purchase Form -->
-                            <form action="{{ route('purchase') }}" method="POST">
+                            <form class="purchase-form" action="#" method="POST" data-name="{{ $product->name }}" data-price="{{ $product->discount_price ?? $product->price }}">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                
+                                <input type="hidden" name="user_id" value="{{ session('user_id') }}">
+
                                 <div class="mb-2">
-                                    <label class="form-label small text-start d-block">Quantity (Max: {{ min($remainingProducts, $product->stock) }})</label>
-                                    <input type="number" name="quantity" class="form-control form-control-sm" 
-                                           min="1" max="{{ min($remainingProducts, $product->stock) }}" value="1" required>
+                                    <label class="form-label small text-start d-block">
+                                        Quantity (Max: {{ min($remainingProducts, $product->stock) }})
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="quantity"
+                                        class="form-control form-control-sm"
+                                        min="1"
+                                        max="{{ min($remainingProducts, $product->stock) }}"
+                                        value="1"
+                                        required
+                                    >
                                 </div>
-                                
-                                <button type="submit" class="btn btn-primary w-100">Proceed</button>
+
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Proceed
+                                </button>
                             </form>
                             @else
                             <button class="btn btn-secondary w-100" disabled>
@@ -124,4 +135,206 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="las la-shopping-cart me-2"></i>
+                    Checkout
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="card bg-light border-0 mb-3">
+                    <div class="card-body">
+
+                        <h6 id="modalProductName"></h6>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Quantity</span>
+                            <strong id="modalQuantity"></strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Price Per Unit</span>
+                            <strong>₹<span id="modalPrice"></span></strong>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                            <h5>Total Payable</h5>
+                            <h5 class="text-primary">
+                                ₹<span id="modalTotal"></span>
+                            </h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{-- Future Payment Methods --}}
+                <div class="mb-3 d-none">
+                    <label class="form-label">Payment Method</label>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio"
+                               name="payment_method"
+                               value="wallet"
+                               checked
+                               disabled>
+
+                        <label class="form-check-label">
+                            Wallet Payment
+                            <small class="text-muted">(Coming Soon)</small>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               name="payment_method"
+                               value="online"
+                               disabled>
+
+                        <label class="form-check-label">
+                            Online Payment
+                            <small class="text-muted">(Coming Soon)</small>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-light" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button class="btn btn-primary" id="confirmPurchaseBtn">
+                    Confirm Purchase
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @endsection
+
+@push('scripts')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            let selectedForm = null;
+
+            document.querySelectorAll('.purchase-form').forEach(form => {
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    selectedForm = form;
+
+                    const productName = form.dataset.name;
+                    const price = parseFloat(form.dataset.price);
+                    const quantity = parseInt(
+                        form.querySelector('[name="quantity"]').value
+                    );
+
+                    const total = price * quantity;
+
+                    document.getElementById('modalProductName').innerText = productName;
+                    document.getElementById('modalQuantity').innerText = quantity;
+                    document.getElementById('modalPrice').innerText = price.toFixed(2);
+                    document.getElementById('modalTotal').innerText = total.toFixed(2);
+
+                    const modal = new bootstrap.Modal(
+                        document.getElementById('checkoutModal')
+                    );
+
+                    modal.show();
+                });
+
+            });
+
+            document.getElementById('confirmPurchaseBtn')
+                .addEventListener('click', async function () {
+
+                    if (!selectedForm) return;
+
+                    const btn = this;
+
+                    btn.disabled = true;
+                    btn.innerHTML = `
+                        <span class="spinner-border spinner-border-sm"></span>
+                        Processing...
+                    `;
+
+                    const formData = {
+                        product_id: selectedForm.querySelector('[name="product_id"]').value,
+                        quantity: selectedForm.querySelector('[name="quantity"]').value,
+                        user_id: selectedForm.querySelector('[name="user_id"]').value
+                    };
+
+                    try {
+
+                        const response = await fetch(
+                            '{{ config("services.api.base_url") }}/purchase',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'Authorization': `Bearer {{ session("token") }}`
+                                },
+                                body: JSON.stringify(formData)
+                            }
+                        );
+
+                        const result = await response.json();
+
+                        if (response.ok && result.status) {
+
+                            await Swal.fire({
+                                icon: 'success',
+                                title: 'Purchase Successful',
+                                text: result.message
+                            });
+
+                            location.reload();
+
+                        } else {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Purchase Failed',
+                                text: result.message || 'Something went wrong'
+                            });
+
+                        }
+
+                    } catch (error) {
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Server Error',
+                            text: 'Unable to process request'
+                        });
+
+                    } finally {
+
+                        btn.disabled = false;
+                        btn.innerHTML = 'Confirm Purchase';
+
+                    }
+
+                });
+        });
+    </script>
+@endpush

@@ -64,7 +64,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr>
+                                {{-- <tr>
                                     <td colspan="8" class="text-center py-5">
                                         <div class="py-5">
                                             <i class="las la-university fs-1 text-muted d-block mb-3"></i>
@@ -72,7 +72,7 @@
                                             <p class="text-muted mb-0">Admin has not added any bank details yet.</p>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 @endforelse
                             </tbody>
                         </table>
