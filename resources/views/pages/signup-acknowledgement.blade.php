@@ -39,6 +39,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="letter-divider"></div>
 
                 <!-- Document Title -->
                 <div class="document-title">
@@ -247,9 +248,15 @@
 }
 
 .company-header {
-    border-bottom: 3px solid #1e3a8a;
+    /* border-bottom: 3px solid #1e3a8a; */
     padding-bottom: 20px;
     margin-bottom: 30px;
+}
+
+.letter-divider {
+    height: 3px;
+    background: var(--in-vertical-menu-item-active-bgcolor);
+    margin: 20px 0;
 }
 
 .company-name {
@@ -302,7 +309,7 @@
 }
 
 .section-title {
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    background: var(--in-vertical-menu-item-active-bgcolor);
     color: white;
     padding: 12px 20px;
     margin: 0;
