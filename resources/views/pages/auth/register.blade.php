@@ -111,10 +111,15 @@
                                                                 <div class="invalid-feedback" id="phone_error"></div>
                                                             </div>
                                                             <div class="col-md-4">
+                                                                <label class="form-label">Date Of Birth <span class="text-danger">*</span></label>
+                                                                <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" required>
+                                                                <div class="invalid-feedback" id="date_of_birth"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
                                                                 <label class="form-label">Pan Number <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="pan_number" id="pan_number" required>
                                                                 <div class="invalid-feedback" id="pan_error"></div>
-                                                            </div>
+                                                            </div> 
                                                             <div class="col-md-6">
                                                                 <label class="form-label">Address Line 1</label>
                                                                 <input type="text" name="address_line_1" class="form-control"
@@ -261,6 +266,7 @@
                 var phone = $('#phone').val().trim();
 
                 var panNumber = $('#pan_number').val().trim();
+                var dateOfBirth = $('#date_of_birth').val().trim();
                 var addressLine1 = $('[name="address_line_1"]').val().trim();
                 var addressLine2 = $('[name="address_line_2"]').val().trim();
                 var city = $('[name="city"]').val().trim();
@@ -285,6 +291,9 @@
                 }
                 if (!phone) { 
                     setError('phone', 'Phone is required.'); valid = false; 
+                }
+                if (!dateOfBirth) { 
+                    setError('data_of_birth', 'Date or Birth is required.'); valid = false; 
                 }
                 if (!panNumber) {
                     setError('pan_number', 'PAN Number is required.');
@@ -316,6 +325,7 @@
                         email: email,
                         phone: phone,
                         pan_number: panNumber,
+                        date_of_birth: dateOfBirth,
                         address_line_1: addressLine1,
                         address_line_2: addressLine2,
                         city: city,
@@ -327,11 +337,14 @@
                         password_confirmation: confirmPassword
                     },
                     success: function(res) {
-                        showToast(res.message || 'Registration successful! Redirecting to login...', 'success');
-                        $('#registerForm')[0].reset();
-                        setTimeout(function() {
-                            // window.location.href = '{{ route("login") }}';
-                        }, 2000);
+                        console.log(res);
+                        if(res.status){
+                            showToast(res.message || 'Registration successful! Redirecting to login...', 'success');
+                            $('#registerForm')[0].reset();
+                            setTimeout(function() {
+                                // window.location.href = '{{ route("login") }}';
+                            }, 2000);
+                        }
                     },
                     error: function(xhr) {
                         var msg = 'Registration failed. Please try again.';
@@ -349,6 +362,7 @@
                             if (errs.password) setError('password', errs.password[0]);
                             if (errs.password_confirmation) setError('password_confirmation', errs.password_confirmation[0]);
                             if (errs.pan_number) setError('pan_number', errs.pan_number[0]);
+                            if (errs.date_of_birth) setError('date_of_birth', errs.date_of_birth[0]);
 
                             if (errs.address_line_1)
                                 $('[name="address_line_1"]').addClass('is-invalid');
