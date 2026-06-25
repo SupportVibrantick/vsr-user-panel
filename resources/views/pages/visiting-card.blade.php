@@ -18,7 +18,7 @@
                     </button>
                 </div>
             </div>
-
+ 
             <!-- Visiting Card -->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
@@ -105,7 +105,7 @@
 
 .card-left {
     width: 35%;
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background: var(--in-vertical-menu-item-active-bgcolor);
     padding: 30px;
     display: flex;
     align-items: center;
@@ -120,9 +120,10 @@
 
 .company-logo {
     width: 120px;
-    height: auto;
+    height: 100px;
     margin-bottom: 15px;
-    filter: brightness(0) invert(1);
+    /* filter: brightness(0) invert(1); */
+    object-fit: none
 }
 
 .company-name h3 {
@@ -181,7 +182,7 @@
 .contact-item i {
     width: 30px;
     height: 30px;
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    background: var(--in-vertical-menu-item-active-bgcolor);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -218,7 +219,7 @@
 .website-section i {
     width: 25px;
     height: 25px;
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    background: var(--in-vertical-menu-item-active-bgcolor);
     color: white;
     border-radius: 50%;
     display: flex;
