@@ -161,7 +161,7 @@
                                 <div class="col-md-4">
                                     <label class="form-label">Country</label>
                                     <input type="text" name="country" class="form-control"
-                                        value="{{ $user['detail']['country'] ?? '' }}">
+                                        value="{{ $user['detail']['country'] ?? 'India' }}">
                                 </div>
     
                                 <!-- Pincode -->
