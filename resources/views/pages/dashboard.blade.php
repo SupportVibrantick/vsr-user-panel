@@ -26,6 +26,14 @@
                         </div>
                     </div>
                     <!-- end page title -->
+                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+                        <div id="mainToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body" id="toastMessage"></div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Welcome Message -->
                     <div class="row">
@@ -38,7 +46,12 @@
                                             <p class="mb-0"> <strong>Track ID: </strong> <span class="badge text-bg-success">{{ $user->track_id }}</span> | <strong>Membership: </strong> <span class="badge text-bg-success">{{ ucwords(str_replace('_', ' ', $user->membership_type)) }}</span></p>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <i class="las la-user-circle" style="font-size: 60px;"></i>
+                                            {{-- <i class="las la-user-circle" style="font-size: 60px;"></i> --}}
+                                            <div class="btn-group rounded" role="group" aria-label="Basic example">
+                                                <input type="hidden" id="referralLink" value="{{ route('register', ['sid' => session('user_name')]) }}" class="form-control" disabled >
+                                                <button type="button" class="btn btn-light fw-semibold rounded-start" disabled><i class="mdi mdi-content-copy"></i>  Copy referal link</button> 
+                                                <button type="button" class="btn btn-primary rounded-end" id="copyBtn"><i class="mdi mdi-content-copy"></i> Copy </button> 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -398,3 +411,21 @@
         </div>
         <!-- end main content-->
         @endsection
+
+    @push('scripts')
+        <script>
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                const link = document.getElementById('referralLink').value;
+                navigator.clipboard.writeText(link).then(() => {
+                    showToast('Referal link copied successfully!', 'success');
+                    this.innerText = 'Copied!';
+                    setTimeout(() => {
+                        this.innerText = 'Copy';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy link.');
+                });
+            });
+        </script>
+    @endpush

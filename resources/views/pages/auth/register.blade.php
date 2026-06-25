@@ -82,8 +82,8 @@
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Sponsor <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="sponsor" id="sponsor" required>
+                                                                <label class="form-label">Sponsor ID <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control {{ request('sid') ? 'bg-light' : '' }}" name="sponsor" id="sponsor" value="{{ request('sid') ?? '' }}" {{ request('sid') ? 'readonly' : '' }} required>
                                                                 <div class="invalid-feedback" id="sponsor_error"></div>
                                                             </div>
 
@@ -109,6 +109,58 @@
                                                                 <label class="form-label">Phone <span class="text-danger">*</span></label>
                                                                 <input type="text" class="form-control" name="phone" id="phone" required>
                                                                 <div class="invalid-feedback" id="phone_error"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Pan Number <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="pan_number" id="pan_number" required>
+                                                                <div class="invalid-feedback" id="pan_error"></div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="form-label">Address Line 1</label>
+                                                                <input type="text" name="address_line_1" class="form-control"
+                                                                    value="{{ $user['detail']['address_line_1'] ?? '' }}">
+                                                            </div>
+                                
+                                                            <!-- Address Line 2 -->
+                                                            <div class="col-md-6">
+                                                                <label class="form-label">Address Line 2</label>
+                                                                <input type="text" name="address_line_2" class="form-control"
+                                                                    value="{{ $user['detail']['address_line_2'] ?? '' }}">
+                                                            </div>
+                                
+                                                            <!-- City -->
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">City</label>
+                                                                <input type="text" name="city" class="form-control"
+                                                                    value="{{ $user['detail']['city'] ?? '' }}">
+                                                            </div>
+                                
+                                                            <!-- District -->
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">District</label>
+                                                                <input type="text" name="district" class="form-control"
+                                                                    value="{{ $user['detail']['district'] ?? '' }}">
+                                                            </div>
+                                
+                                                            <!-- State -->
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">State</label>
+                                                                <input type="text" name="state" class="form-control"
+                                                                    value="{{ $user['detail']['state'] ?? '' }}">
+                                                            </div>
+                                
+                                                            <!-- Country -->
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Country</label>
+                                                                <input type="text" name="country" class="form-control"
+                                                                    value="{{ $user['detail']['country'] ?? 'India' }}">
+                                                            </div>
+                                
+                                                            <!-- Pincode -->
+                                                            <div class="col-md-4">
+                                                                <label class="form-label">Pincode</label>
+                                                                <input type="text" name="pincode" class="form-control"
+                                                                    value="{{ $user['detail']['pincode'] ?? '' }}">
                                                             </div>
 
                                                             <div class="col-md-4">
@@ -207,6 +259,16 @@
                 var lastName = $('#last_name').val().trim();
                 var email = $('#email').val().trim();
                 var phone = $('#phone').val().trim();
+
+                var panNumber = $('#pan_number').val().trim();
+                var addressLine1 = $('[name="address_line_1"]').val().trim();
+                var addressLine2 = $('[name="address_line_2"]').val().trim();
+                var city = $('[name="city"]').val().trim();
+                var district = $('[name="district"]').val().trim();
+                var state = $('[name="state"]').val().trim();
+                var country = $('[name="country"]').val().trim();
+                var pincode = $('[name="pincode"]').val().trim();
+
                 var password = $('#password').val();
                 var confirmPassword = $('#password_confirmation').val();
 
@@ -216,9 +278,21 @@
                 if (!sponsor) { setError('sponsor', 'Sponsor is required.'); valid = false; }
                 if (!firstName) { setError('first_name', 'First name is required.'); valid = false; }
                 if (!lastName) { setError('last_name', 'Last name is required.'); valid = false; }
-                if (!email) { setError('email', 'Email is required.'); valid = false; }
-                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', 'Invalid email format.'); valid = false; }
-                if (!phone) { setError('phone', 'Phone is required.'); valid = false; }
+                if (!email) { 
+                    setError('email', 'Email is required.'); valid = false;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { 
+                    setError('email', 'Invalid email format.'); valid = false; 
+                }
+                if (!phone) { 
+                    setError('phone', 'Phone is required.'); valid = false; 
+                }
+                if (!panNumber) {
+                    setError('pan_number', 'PAN Number is required.');
+                    valid = false;
+                } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i.test(panNumber)) {
+                    setError('pan_number', 'Enter a valid PAN Number.');
+                    valid = false;
+                }
                 else if (!/^\d{10,15}$/.test(phone.replace(/[\s\-\+]/g, ''))) { setError('phone', 'Enter a valid phone number.'); valid = false; }
                 if (!password) { setError('password', 'Password is required.'); valid = false; }
                 else if (password.length < 6) { setError('password', 'Password must be at least 6 characters.'); valid = false; }
@@ -241,6 +315,14 @@
                         last_name: lastName,
                         email: email,
                         phone: phone,
+                        pan_number: panNumber,
+                        address_line_1: addressLine1,
+                        address_line_2: addressLine2,
+                        city: city,
+                        district: district,
+                        state: state,
+                        country: country,
+                        pincode: pincode,
                         password: password,
                         password_confirmation: confirmPassword
                     },
@@ -248,7 +330,7 @@
                         showToast(res.message || 'Registration successful! Redirecting to login...', 'success');
                         $('#registerForm')[0].reset();
                         setTimeout(function() {
-                            window.location.href = '{{ route("login") }}';
+                            // window.location.href = '{{ route("login") }}';
                         }, 2000);
                     },
                     error: function(xhr) {
@@ -266,6 +348,28 @@
                             if (errs.phone) setError('phone', errs.phone[0]);
                             if (errs.password) setError('password', errs.password[0]);
                             if (errs.password_confirmation) setError('password_confirmation', errs.password_confirmation[0]);
+                            if (errs.pan_number) setError('pan_number', errs.pan_number[0]);
+
+                            if (errs.address_line_1)
+                                $('[name="address_line_1"]').addClass('is-invalid');
+
+                            if (errs.address_line_2)
+                                $('[name="address_line_2"]').addClass('is-invalid');
+
+                            if (errs.city)
+                                $('[name="city"]').addClass('is-invalid');
+
+                            if (errs.district)
+                                $('[name="district"]').addClass('is-invalid');
+
+                            if (errs.state)
+                                $('[name="state"]').addClass('is-invalid');
+
+                            if (errs.country)
+                                $('[name="country"]').addClass('is-invalid');
+
+                            if (errs.pincode)
+                                $('[name="pincode"]').addClass('is-invalid');
                         }
                         showToast(msg, 'error');
                     },
