@@ -88,6 +88,10 @@
                             <ul class="list-unstyled mb-3 text-start px-3">
                                 <li class="d-flex justify-content-between"><span><strong>MRP:</strong></span> <span>₹{{ number_format($product->price, 2) }}</span></li>
                                 <li class="d-flex justify-content-between"><span><strong>DP:</strong></span> <span>₹{{ number_format($product->discount_price ?? $product->price, 2) }}</span></li>
+                                <li class="d-flex justify-content-between"><span><strong>UNIT PRICE:</strong></span> <span>₹1380.95</span></li>
+                                <li class="d-flex justify-content-between"><span><strong>GST PRICE:</strong></span> <span>₹69.05</span></li>
+                                <li class="d-flex justify-content-between"><span><strong>PACK SIZE:</strong></span> <span>120</span></li>
+                                <li class="d-flex justify-content-between"><span><strong>UNIT SELLING PRICE:</strong></span> <span>₹15.74/Capsule</span></li>
                                 <li class="d-flex justify-content-between"><span><strong>CC:</strong></span> <span>{{ $product->cc_points ?? 0 }}</span></li>
                                 {{-- <li class="d-flex justify-content-between"><span><strong>Stock:</strong></span> <span class="badge bg-light text-dark">{{ $product->stock }}</span></li> --}}
                             </ul>
