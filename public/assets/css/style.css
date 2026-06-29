@@ -120,6 +120,7 @@
     font-size: 1.25rem;
 }
 
+
 /* Left border + icon themes */
 .kpi-rank::before { background: linear-gradient(180deg, #7c3aed, #a78bfa); }
 .kpi-rank .kpi-icon { background: rgba(124,58,237,0.12); color: #7c3aed; }

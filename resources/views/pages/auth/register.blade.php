@@ -76,102 +76,112 @@
                                                     <form id="registerForm" class="auth-input">
                                                         <div class="row g-3">
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Username <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="user_name" id="user_name" required>
+                                                                <label for="user_name" class="form-label">Username <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Enter username" required>
                                                                 <div class="invalid-feedback" id="user_name_error"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Sponsor ID <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control {{ request('sid') ? 'bg-light' : '' }}" name="sponsor" id="sponsor" value="{{ request('sid') ?? '' }}" {{ request('sid') ? 'readonly' : '' }} required>
+                                                                <label for="sponsor" class="form-label">Sponsor ID <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control {{ request('sid') ? 'bg-light' : '' }}"
+                                                                    name="sponsor" id="sponsor"
+                                                                    value="{{ request('sid') ?? '' }}"
+                                                                    placeholder="Enter sponsor ID"
+                                                                    {{ request('sid') ? 'readonly' : '' }} required>
                                                                 <div class="invalid-feedback" id="sponsor_error"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="first_name" id="first_name" required>
+                                                                <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter first name" required>
                                                                 <div class="invalid-feedback" id="first_name_error"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="last_name" id="last_name" required>
+                                                                <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter last name" required>
                                                                 <div class="invalid-feedback" id="last_name_error"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                                <input type="email" class="form-control" name="email" id="email" required>
+                                                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email address" required>
                                                                 <div class="invalid-feedback" id="email_error"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="phone" id="phone" required>
+                                                                <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter phone number" required>
                                                                 <div class="invalid-feedback" id="phone_error"></div>
                                                             </div>
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Date Of Birth <span class="text-danger">*</span></label>
+                                                                <label for="date_of_birth" class="form-label">Date Of Birth <span class="text-danger">*</span></label>
                                                                 <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" required>
-                                                                <div class="invalid-feedback" id="date_of_birth"></div>
+                                                                <div class="invalid-feedback" id="date_of_birth_error"></div>
                                                             </div>
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Pan Number <span class="text-danger">*</span></label>
-                                                                <input type="text" class="form-control" name="pan_number" id="pan_number" required>
+                                                                <label for="pan_number" class="form-label">PAN Number <span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" name="pan_number" id="pan_number" placeholder="Enter PAN number" required>
                                                                 <div class="invalid-feedback" id="pan_error"></div>
-                                                            </div> 
+                                                            </div>
+
                                                             <div class="col-md-6">
-                                                                <label class="form-label">Address Line 1</label>
-                                                                <input type="text" name="address_line_1" class="form-control"
+                                                                <label for="address_line_1" class="form-label">Address Line 1</label>
+                                                                <input type="text" name="address_line_1" id="address_line_1" class="form-control"
+                                                                    placeholder="Enter address line 1"
                                                                     value="{{ $user['detail']['address_line_1'] ?? '' }}">
                                                             </div>
-                                
-                                                            <!-- Address Line 2 -->
+
                                                             <div class="col-md-6">
-                                                                <label class="form-label">Address Line 2</label>
-                                                                <input type="text" name="address_line_2" class="form-control"
+                                                                <label for="address_line_2" class="form-label">Address Line 2</label>
+                                                                <input type="text" name="address_line_2" id="address_line_2" class="form-control"
+                                                                    placeholder="Enter address line 2"
                                                                     value="{{ $user['detail']['address_line_2'] ?? '' }}">
                                                             </div>
-                                
-                                                            <!-- City -->
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">City</label>
-                                                                <input type="text" name="city" class="form-control"
+                                                                <label for="city" class="form-label">City</label>
+                                                                <input type="text" name="city" id="city" class="form-control"
+                                                                    placeholder="Enter city"
                                                                     value="{{ $user['detail']['city'] ?? '' }}">
                                                             </div>
-                                
-                                                            <!-- District -->
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">District</label>
-                                                                <input type="text" name="district" class="form-control"
+                                                                <label for="district" class="form-label">District</label>
+                                                                <input type="text" name="district" id="district" class="form-control"
+                                                                    placeholder="Enter district"
                                                                     value="{{ $user['detail']['district'] ?? '' }}">
                                                             </div>
-                                
-                                                            <!-- State -->
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">State</label>
-                                                                <input type="text" name="state" class="form-control"
+                                                                <label for="state" class="form-label">State</label>
+                                                                <input type="text" name="state" id="state" class="form-control"
+                                                                    placeholder="Enter state"
                                                                     value="{{ $user['detail']['state'] ?? '' }}">
                                                             </div>
-                                
-                                                            <!-- Country -->
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Country</label>
-                                                                <input type="text" name="country" class="form-control"
+                                                                <label for="country" class="form-label">Country</label>
+                                                                <input type="text" name="country" id="country" class="form-control"
+                                                                    placeholder="Enter country"
                                                                     value="{{ $user['detail']['country'] ?? 'India' }}">
                                                             </div>
-                                
-                                                            <!-- Pincode -->
+
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Pincode</label>
-                                                                <input type="text" name="pincode" class="form-control"
+                                                                <label for="pincode" class="form-label">Pincode</label>
+                                                                <input type="text" name="pincode" id="pincode" class="form-control"
+                                                                    placeholder="Enter pincode"
                                                                     value="{{ $user['detail']['pincode'] ?? '' }}">
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                                                <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                                                 <div class="position-relative auth-pass-inputgroup">
-                                                                    <input type="password" class="form-control pe-5 password-input" name="password" id="password" required>
+                                                                    <input type="password" class="form-control pe-5 password-input"
+                                                                        name="password" id="password"
+                                                                        placeholder="Enter password" required>
                                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button">
                                                                         <i class="las la-eye align-middle fs-18"></i>
                                                                     </button>
@@ -180,8 +190,12 @@
                                                             </div>
 
                                                             <div class="col-md-4">
-                                                                <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
-                                                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
+                                                                <label for="password_confirmation" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                                                <input type="password" class="form-control"
+                                                                    name="password_confirmation"
+                                                                    id="password_confirmation"
+                                                                    placeholder="Confirm your password"
+                                                                    required>
                                                                 <div class="invalid-feedback" id="password_confirmation_error"></div>
                                                             </div>
                                                         </div>
