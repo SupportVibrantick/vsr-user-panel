@@ -154,7 +154,7 @@
                     $teamRouteNames = collect($teamRoutes)->pluck('route')->toArray();
                 @endphp
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs(...$teamRouteNames) ? 'active' : '' }}"
                         href="#sidebarAuthentication"
                         data-bs-toggle="collapse"
@@ -182,7 +182,7 @@
                         </ul>
 
                     </div>
-                </li>
+                </li> --}}
 
                 @php
                     $fundRoutes = [
@@ -324,7 +324,7 @@
                     $walletRouteNames = collect($walletRoutes)->pluck('route')->toArray();
                 @endphp
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link {{ request()->routeIs($walletRouteNames) ? 'active' : '' }}"
                         href="#sidebarWallet"
                         data-bs-toggle="collapse"
@@ -352,7 +352,7 @@
                         </ul>
 
                     </div>
-                </li>
+                </li> --}}
 
                 <!-- Delivery Report Dropdown -->
                 @php

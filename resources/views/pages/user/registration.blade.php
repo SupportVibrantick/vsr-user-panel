@@ -41,37 +41,82 @@
                                 <!-- Username -->
                                 <div class="col-md-4">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" name="user_name">
+                                    <input type="text" class="form-control" name="user_name" placeholder="Enter Username">
                                 </div>
     
                                 <!-- Sponsor -->
                                 <div class="col-md-4">
                                     <label class="form-label">Sponsor</label>
-                                    <input type="text" class="form-control" name="sponsor">
+                                    <input type="text" class="form-control" name="sponsor" value="{{ session('user_name') ?? 'N/A' }}" readonly>
                                 </div>
     
                                 <!-- First Name -->
                                 <div class="col-md-4">
                                     <label class="form-label">First Name</label>
-                                    <input type="text" class="form-control" name="first_name">
+                                    <input type="text" class="form-control" name="first_name" placeholder="Enter first name">
                                 </div>
     
                                 <!-- Last Name -->
                                 <div class="col-md-4">
                                     <label class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" name="last_name">
+                                    <input type="text" class="form-control" name="last_name" placeholder="Enter last name">
                                 </div>
     
                                 <!-- Email -->
                                 <div class="col-md-4">
                                     <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email">
+                                    <input type="email" class="form-control" name="email" placeholder="Enter email address">
                                 </div>
     
                                 <!-- Phone -->
                                 <div class="col-md-4">
                                     <label class="form-label">Phone</label>
-                                    <input type="text" class="form-control" name="phone">
+                                    <input type="text" class="form-control" name="phone" placeholder="Enter phone number">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Date of Birth</label>
+                                    <input type="text" class="form-control" name="date_of_birth" placeholder="Enter Date Of Birth">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">PAN Number</label>
+                                    <input type="text" class="form-control" name="pan_number" placeholder="Enter pan number">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="address_line_1" class="form-label">Address Line 1</label>
+                                    <input type="text" name="address_line_1" id="address_line_1" class="form-control" placeholder="Enter address line 1" value="{{ $user['detail']['address_line_1'] ?? '' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="address_line_2" class="form-label">Address Line 2</label>
+                                    <input type="text" name="address_line_2" id="address_line_2" class="form-control" placeholder="Enter address line 2" value="{{ $user['detail']['address_line_2'] ?? '' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" name="city" id="city" class="form-control" placeholder="Enter city" value="{{ $user['detail']['city'] ?? '' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="district" class="form-label">District</label>
+                                    <input type="text" name="district" id="district" class="form-control" placeholder="Enter district" value="{{ $user['detail']['district'] ?? '' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" name="state" id="state" class="form-control" placeholder="Enter state" value="{{ $user['detail']['state'] ?? '' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="country" class="form-label">Country</label>
+                                    <input type="text" name="country" id="country" class="form-control" placeholder="Enter country"
+                                        value="{{ $user['detail']['country'] ?? 'India' }}">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="pincode" class="form-label">Pincode</label>
+                                    <input type="text" name="pincode" id="pincode" class="form-control"
+                                        placeholder="Enter pincode"
+                                        value="{{ $user['detail']['pincode'] ?? '' }}">
                                 </div>
     
                                 <!-- Password -->
