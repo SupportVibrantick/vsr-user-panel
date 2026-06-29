@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -21,11 +22,26 @@ class LoginController extends Controller
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
+            'cf-turnstile-response' => 'required',
         ]);
 
         $username = $request->input('username');
         $password = $request->input('password');
         $remember = $request->has('remember');
+
+        $response = Http::timeout(10)->asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => env('TURNSTILE_SECRETKEY'),
+            'response' => $request->input('cf-turnstile-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $result = $response->json();
+
+        if (!($result['success'] ?? false)) {
+            return back()
+                ->withErrors(['captcha' => 'CAPTCHA verification failed. Please try again.'])
+                ->withInput();
+        }
 
         // Find user
         $user = DB::table('mlm_users')
@@ -37,6 +53,11 @@ class LoginController extends Controller
             ->where('is_deleted', 0)
             ->where('is_active', 1)
             ->first();
+
+            // $userDetails = DB::table('mlm_users_details')->select('id', 'user_id', 'profile_image')->where('user_id', $user->id)->first();
+            
+            // $profileImage = asset('storage/' . $userDetails->profile_image);
+            // dd($profileImage);
 
         if ($user && Hash::check($password, $user->password)) {
             Session::put('user_id', $user->id);
