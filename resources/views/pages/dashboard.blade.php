@@ -41,7 +41,7 @@
                         <div class="col-12">
                             <div class="card bg-primary-gradient text-white">
                                 <div class="card-body">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center flex-wrap gap-3">
                                         <div class="flex-grow-1">
                                             <h4 class="mb-2 text-white">Welcome Back, {{ $user->first_name }} {{ $user->last_name }}!</h4>
                                             <p class="mb-0"> <strong>Track ID: </strong> <span class="badge text-bg-success">{{ $user->track_id }}</span> | <strong>Membership: </strong> <span class="badge text-bg-success">{{ ucwords(str_replace('_', ' ', $user->membership_type)) }}</span></p>
@@ -50,8 +50,9 @@
                                             {{-- <i class="las la-user-circle" style="font-size: 60px;"></i> --}}
                                             <div class="btn-group rounded" role="group" aria-label="Basic example">
                                                 <input type="hidden" id="referralLink" value="{{ route('register', ['sid' => session('user_name')]) }}" class="form-control" disabled >
-                                                <button type="button" class="btn btn-light fw-semibold rounded-start" disabled><i class="mdi mdi-content-copy"></i>  Copy referal link</button> 
-                                                <button type="button" class="btn btn-primary rounded-end" id="copyBtn"><i class="mdi mdi-content-copy"></i> Copy </button> 
+                                                <button type="button" class="btn btn-light fw-semibold rounded-start" id="copyBtn"><i class="mdi mdi-content-copy"></i>  Copy referal link</button> 
+                                                {{-- <button type="button" class="btn btn-primary rounded-end" ><span class="mdi mdi-content-copy"></span></button>  --}}
+                                                <a href="" type="button" class="btn btn-primary rounded-end"><span class="mdi mdi-open-in-new"></span> </a> 
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +63,7 @@
 
                     <!-- Stats Cards -->
                     <div class="row">
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-rank shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -80,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-income shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -98,7 +99,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-business shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -116,7 +117,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-percent shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -134,7 +135,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-income shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -152,7 +153,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-wallet shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -170,7 +171,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-income shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -188,7 +189,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-balance shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -214,7 +215,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-team shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -232,7 +233,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-team shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -258,7 +259,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-team shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -284,7 +285,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-business shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -302,7 +303,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-generation shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -320,7 +321,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-md-4 col-6 mb-3">
+                        <div class="col-xl-3 col-md-4 col-12 mb-3">
                             <div class="card kpi-card kpi-total shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
@@ -421,11 +422,12 @@
                     showToast('Referal link copied successfully!', 'success');
                     this.innerText = 'Copied!';
                     setTimeout(() => {
-                        this.innerText = 'Copy';
+                        this.innerText = 'Copy referal link';
                     }, 2000);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
-                    alert('Failed to copy link.');
+                    // alert('Failed to copy link.');
+                    showToast('Failed to copy link!', 'danger');
                 });
             });
         </script>
