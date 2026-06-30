@@ -52,7 +52,7 @@
                                                 <input type="hidden" id="referralLink" value="{{ route('register', ['sid' => session('user_name')]) }}" class="form-control" disabled >
                                                 <button type="button" class="btn btn-light fw-semibold rounded-start" id="copyBtn"><i class="mdi mdi-content-copy"></i>  Copy referal link</button> 
                                                 {{-- <button type="button" class="btn btn-primary rounded-end" ><span class="mdi mdi-content-copy"></span></button>  --}}
-                                                <a href="{{ route('register', ['sid' => session('user_name')]) }}" type="button" class="btn btn-primary rounded-end"><span class="mdi mdi-open-in-new"></span> </a> 
+                                                <a href="{{ route('register', ['sid' => session('user_name')]) }}" target="_blank" type="button" class="btn btn-primary rounded-end"><span class="mdi mdi-open-in-new"></span> </a> 
                                             </div>
                                         </div>
                                     </div>
